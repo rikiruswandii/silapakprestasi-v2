@@ -1,0 +1,43 @@
+{
+  "name": "sprodev/codeigniter4-boilerplate",
+  "type": "project",
+  "description": "CodeIgniter 4 Boilerplate",
+  "homepage": "https://github.com/sProDev/codeigniter4-boilerplate",
+  "license": "UNLICENSED",
+  "require": {
+    "php": "^7.3 || ^8.0",
+    "codeigniter4/framework": "^4.0",
+    "codeigniter4/translations": "^4.1",
+    "hermawan/codeigniter4-datatables": "^0.5.2",
+    "hashids/hashids": "^4.1",
+    "ifsnop/mysqldump-php": "^2.9",
+    "guzzlehttp/guzzle": "^7.4",
+    "squizlabs/php_codesniffer": "^3.6"
+  },
+  "require-dev": {
+    "fakerphp/faker": "^1.9",
+    "fabpot/goutte": "^4.0",
+    "splitbrain/php-archive": "^1.2"
+  },
+  "suggest": {
+    "ext-fileinfo": "Improves mime type detection for files"
+  },
+  "scripts": {
+    "psr2check": [
+      "@php vendor/bin/phpcs --ignore=*/Views/*,*/Config/Boot/*,*/Config/Mimes.php,*/Config/Events.php,*/Config/DocTypes.php --standard=PSR2 app/"
+    ],
+    "psr2autofix": [
+      "@php vendor/bin/phpcbf --standard=PSR2 app/"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app",
+      "Config\\": "app/Config"
+    },
+    "exclude-from-classmap": [
+      "**/Database/Migrations/**"
+    ]
+  },
+  "prefer-stable": true
+}

@@ -1,0 +1,542 @@
+figure + p {
+	margin-top: 1rem;
+}
+
+div.loading {
+	z-index: 99999999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(16, 16, 16, 0.5);
+}
+
+@-webkit-keyframes uil-ring-anim {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes uil-ring-anim {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-moz-keyframes uil-ring-anim {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-ms-keyframes uil-ring-anim {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-moz-keyframes uil-ring-anim {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes uil-ring-anim {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-o-keyframes uil-ring-anim {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes uil-ring-anim {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+.uil-ring-css {
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 200px;
+	height: 200px;
+}
+
+.uil-ring-css > div {
+	position: absolute;
+	display: block;
+	width: 160px;
+	height: 160px;
+	top: 20px;
+	left: 20px;
+	border-radius: 80px;
+	box-shadow: 0 6px 0 0 #ffffff;
+	-ms-animation: uil-ring-anim 1s linear infinite;
+	-moz-animation: uil-ring-anim 1s linear infinite;
+	-webkit-animation: uil-ring-anim 1s linear infinite;
+	-o-animation: uil-ring-anim 1s linear infinite;
+	animation: uil-ring-anim 1s linear infinite;
+}
+
+.map.map-full {
+	position: relative;
+}
+
+.district-filter {
+	padding: 10px;
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+	display:flex;
+	justify-content:center;
+}
+
+
+.district-filter .wrapper {
+	width: 150px;
+	
+}
+
+.district-filter select {
+	padding: 8px 12px;
+	background-position: right 12px center;
+	border-radius: 2px;
+	box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+	
+}
+.select-trans {
+	opacity: 0.7;
+}
+.select-opacity {
+	gap:3px;
+}
+.search-location {
+	padding: 15px;
+	position:relative;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	
+}
+.logo-silapak {
+	padding: 20px;
+	margin-bottom: 20px;
+	position: relative;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+.menu {
+	width: 100%;
+height: 47px;
+
+}
+.menu-item {
+	margin: 0;
+	width:100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+.menu-item.active {
+	border-bottom: 2px solid #3f78e0;
+}
+.menu-item {
+	text-decoration: none;
+}
+.icon {
+	width: 16px;
+	height: 16px;
+	margin-right: 5px;
+}
+.content {
+	display: none;
+	background-color: white;
+	height: 80vh;
+	overflow-x: auto;
+}
+.rightContent {
+	height: 80vh;
+	overflow-x: auto;
+}
+
+h2 {
+	margin-top: 0;
+}
+
+.marker-button:hover,
+.polyline-button:hover,
+.polygon-button:hover,
+.edit-button:hover,
+.delete-button:hover,
+.cari-button:hover,
+.menu-item-1:hover,
+.menu-item-2:hover, 
+.tggl-button:hover {
+	background-color: aliceblue;
+	/* Ganti warna latar belakang saat dihover */
+	color: #60697b;
+	/* Ganti warna teks saat dihover */
+	cursor: pointer;
+	/* Ubah kursor mouse menjadi tangan saat dihover */
+}
+.form-check-input:hover {
+background-color: #ffffff ;
+border: 2px solid #3f78e0;
+}
+.form-check-input {
+	border: 2px solid #60697b;
+}
+/* Sidebar Right Container */
+.sidebarRight {
+	
+	border-left: 1px solid #e3e3e3;
+	width: 250px;
+	position: absolute;
+	display: initial;
+	justify-content: right;
+	z-index: 1001;
+	height: calc(100vh - 87px);
+}
+
+#sideRight {
+	display: none;
+	transform: translateX(100%);
+	transition: transform 0.3s ease-in-out;
+}
+.hidden {
+	display: none;
+}
+#sideRight:not(.sidebarHide){
+	transform: translateX(0);
+}
+
+.sidebarLeft {
+	transition: .3s;
+		border-right: 1px solid #e3e3e3;
+		width: 280px;
+		position: absolute;
+		display:initial;
+		justify-content: left;
+		z-index: 1001;
+		height: calc(100vh - 87px);
+}
+
+/* CSS to hide the sidebar by default */
+#sideLeft {
+	transform: translateX(-100%);
+	transition: transform 0.3s ease-in-out;
+}
+
+/* CSS to show the sidebar when the "sidebarHidden" class is not present */
+#sideLeft:not(.sidebarHidden),
+#legend:not(.sidebarHidden) {
+	transform: translateX(0);
+}
+/* Define CSS styles for the coordinateHeader class */
+.coordinateHeader {
+	width: 100%;
+	height: 47px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px 16px;
+	/* Adjust padding as needed */
+	background-color: #3f78e0;
+	/* Change background color as needed */
+}
+
+/* Define CSS styles for the icon container within the coordinateHeader */
+.coordinateHeader .icon-container {
+	display: flex;
+	align-items: center;
+}
+
+/* Define CSS styles for the icon */
+.coordinateHeader .icon-container svg {
+	width: 16px;
+	/* Set the width of the SVG icon */
+	height: 16px;
+	/* Set the height of the SVG icon */
+	fill: currentColor;
+	/* Use the current text color for icon fill */
+	margin-right: 8px;
+	/* Adjust margin as needed */
+	color: #ffffff;
+}
+
+/* Define CSS styles for the text */
+.coordinateHeader .text {
+	font-size: 15px;
+	color: #ffffff;
+	/* Adjust font size as needed */
+}
+.statistik {
+	display: flex;
+	justify-content:left;
+	margin: 5px;
+	/* Adjust padding as needed */
+}
+.li-text {
+	margin-top: 0.20rem;
+	font-size: small;
+	font-weight: bold;
+	color: #60697b;
+	font-family: var(--bs-font-sans-serif);
+}
+.li-text-left {
+	margin-top: 0.20rem;
+	font-size: small;
+	font-weight: bold;
+	color: #60697b;
+	font-family: var(--bs-font-sans-serif);
+}
+.custom-text-style {
+	font-size: 12px;
+	font-weight: bold;
+	color: #60697b;
+	/* Define your custom text color here */
+	font-family: var(--bs-font-sans-serif);
+}
+.spanText {
+	padding-left: 5px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #60697b;
+	/* Define your custom text color here */
+	font-family: var(--bs-font-sans-serif);
+}
+.filterNama {
+	font-size: 16px;
+	font-weight: bold;
+	color: #60697b;
+	font-family: var(--bs-font-sans-serif);
+}
+.custom-text-check {
+	font-size: 12px;
+	font-weight: bold;
+	color: #60697b;
+	/* Define your custom text color here */
+	font-family: var(--bs-font-sans-serif);
+	margin-left: 30px;
+}
+.rotate180 {
+	transform: rotate(90deg);
+}
+.legend {
+	width: 240px;
+	height: 350px;
+	font-size: 14px;
+	background: #ffffff;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
+	overflow-x:auto;
+}
+.legend-item,
+.checkbox-item {
+	display: flex;
+	justify-content:left;
+	align-items: left;
+	gap: 8px;
+}
+.color-box {
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	border-radius: 0;
+}
+.legend::-webkit-scrollbar {
+	width: 5px;
+}
+.legend::-webkit-scrollbar-track {
+	background: #e3e3e3;
+}
+.legend::-webkit-scrollbar-thumb {
+	background-color: #3f78e0;
+	border-radius: 20px;
+	border: 1px solid #e3e3e3;
+}
+.rightContent::-webkit-scrollbar,
+.content::-webkit-scrollbar {
+	width: 5px;
+}
+.rightContent::-webkit-scrollbar-track,
+.content::-webkit-scrollbar-track {
+	background: #e3e3e3;
+}
+.rightContent::-webkit-scrollbar-thumb,
+.content::-webkit-scrollbar-thumb {
+	background-color: #3f78e0;
+	border-radius: 20px;
+	border: 1px solid #e3e3e3;
+}
+#kecamatan,
+#kelurahan,
+#populasi,
+#kepadatan_penduduk,
+#angkatan_kerja,
+#kategori_usaha_kecamatan,
+#zona,
+#sub_zona {
+	margin-top: 0;
+	padding-bottom: 0;
+}
+.sub {
+	height:40px;
+}
+.bi {
+	font-size: 16px;
+	
+}
+.accordionStyle {
+	width: 100%;
+	border-bottom: 1px solid rgba(8, 60, 130, .06);;
+	background-color: #fff;
+	color: #333;
+	font-family: Arial, sans-serif;
+		font-size: 16px;
+		font-weight: normal;
+}
+.pengukuran {
+	width: 100%;
+	border-bottom: 1px solid rgba(8, 60, 130, .06);;
+	background-color: #fff;
+	color: #333;
+	font-family: Arial, sans-serif;
+		font-size: 16px;
+		font-weight: normal;
+}
+.marker-button,
+.polyline-button,
+.polygon-button,
+.edit-button,
+.delete-button {
+	height: 30px;
+}
+.bi-pencil-square,
+.fa-draw-polygon,
+.fa-trash,
+.bi-slash-lg,
+.bi-geo-alt-fill {
+	position: absolute;
+	bottom: 5px;
+	left:12px;
+}
+.btn-group>.btn-group:not(:last-child)>.btn,
+.btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+
+}
+.btn-group>.btn-group:not(:first-child)>.btn,
+.btn-group>.btn:nth-child(n+3),
+.btn-group>:not(.btn-check)+.btn {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
