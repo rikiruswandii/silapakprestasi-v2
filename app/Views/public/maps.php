@@ -73,29 +73,8 @@ $this->withoutFooter = true;
             </div>
 
             <div class="p-2 content" id="filterContent">
-                <div class="input-group">
-                    <label for="layer-filter" class="input-group-text">Pilih Kecamatan:</label>
-                    <select id="layer-filter" class="form-select">
-                        <option value="all">Semua</option>
-                        <option value="Sukatani">Sukatani</option>
-                        <option value="Jatiluhur">Jatiluhur</option>
-                        <option value="Bungursari">Bungursari</option>
-                        <option value="Cibatu">Cibatu</option>
-                        <option value="Darangdan">Darangdan</option>
-                        <option value="Sukasari">Sukasari</option>
-                        <option value="Tegalwaru">Tegalwaru</option>
-                        <option value="Wanayasa">Wanayasa</option>
-                        <option value="Maniis">Maniis</option>
-                        <option value="Pasawahan">Pasawahan</option>
-                        <option value="Plered">Plered</option>
-                        <option value="Purwakarta">Purwakarta</option>
-                        <option value="Kiarapedes">Kiarapedes</option>
-                        <option value="Bojong">Bojong</option>
-                        <option value="Pondoksalam">Pondoksalam</option>
-                        <option value="Babakancikao">Babakancikao</option>
-                        <option value="Campaka">Campaka</option>
-                    </select>
-                </div>
+                <p style="font-size:15px;">Silahkan aktifkan layer untuk fitur ini</p>
+                <p class="text-danger" style="font-size:12px;">*Catatan: pastikan layer tidak bertumpuk sebelum menggunakan fitur ini!</p>
             </div>
 
             <div class="content" id="layerContent">
@@ -354,36 +333,32 @@ $this->withoutFooter = true;
                 name: 'OSM'
             },
             {
-                layer: L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-                    maxZoom: 20,
-                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                layer: L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Specialty/DeLorme_World_Base_Map/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 20
                 }),
-                icon: BASE_URL + '/assets/img/street.jpg',
-                name: 'Street'
+                icon: BASE_URL + '/assets/img/DeLorme.jpg',
+                name: 'DeLorme'
             },
             {
-                layer: L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-                    maxZoom: 20,
-                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                layer: L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+                    maxZoom: 20
                 }),
-                icon: BASE_URL + '/assets/img/hybrid.jpg',
-                name: 'Hybrid'
+                icon: BASE_URL + '/assets/img/Humanitarian.jpg',
+                name: 'Humanitarian'
             },
             {
-                layer: L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
-                    maxZoom: 20,
-                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                layer: L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 20
                 }),
-                icon: BASE_URL + '/assets/img/terrain.jpg',
-                name: 'Terrain'
+                icon: BASE_URL + '/assets/img/WSM.jpg',
+                name: 'World Street'
             },
             {
-                layer: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-                    maxZoom: 20,
-                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                layer: L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 20
                 }),
-                icon: BASE_URL + '/assets/img/light.jpg',
-                name: 'Light'
+                icon: BASE_URL + '/assets/img/WI.jpg',
+                name: 'World Imagery'
             },
         ], {
             position: 'topright'
@@ -414,7 +389,7 @@ $this->withoutFooter = true;
             if (feature.properties.nama_pelaku_usaha) {
                 popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Nama Pelaku Usaha : </span></br>' + feature.properties.nama_pelaku_usaha + '</p>';
                 popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Alamat Usaha : </span></br>' + feature.properties.alamat_kantor + '</p>';
-                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Jenis Usaha : </span></br>' + feature.properties.judul_kbli_kegiatan_usaha + '</p>';
+                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Jenis Usaha : </span></br>' + (feature.properties.judul_kbli_kegiatan_usaha || feature.properties.judul_kbli) + '</p>';
                 popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Luas Tanah : </span></br>' + feature.properties.luas_tanah + '</p>';
             }
 
@@ -488,6 +463,8 @@ $this->withoutFooter = true;
             if (geojsonLayers[filename]) {
                 geojsonLayer = geojsonLayers[filename];
                 geojsonLayer.addTo(map);
+
+                updateFilterContentForLayer(filename);
             } else {
                 var target = BASE_URL + "/uploads/geojson/" + filename;
                 fetch(target)
@@ -521,11 +498,15 @@ $this->withoutFooter = true;
                             }
                         });
 
+                        updateFilterContentForLayer(filename);
+
                         geojsonLayer.addTo(map);
                         geojsonLayers[filename] = geojsonLayer;
 
                         var bounds = geojsonLayer.getBounds();
                         map.fitBounds(bounds);
+
+                        console.log('Isi dari filename setelah eksekusi enableLayer:', filename);
                     })
                     .catch(error => {
                         console.error(error);
@@ -533,26 +514,95 @@ $this->withoutFooter = true;
             }
         }
 
-        var layerFilter = document.getElementById('layer-filter');
+        function updateFilterContentForLayer(filename) {
+            var filterContent = document.getElementById('filterContent');
+            filterContent.innerHTML = '';
 
-        layerFilter.addEventListener('change', function() {
-            var selectedKecamatan = layerFilter.value;
-            filterLayer(selectedKecamatan);
-        });
+            if (filename === '1698892892_dec79bcda39a9aed09e5.geojson') {
+                var div = document.createElement('div');
+                div.className = 'input-group';
+                var label = document.createElement('label');
+                label.htmlFor = filename + '-filter';
+                label.className = 'input-group-text'
+                label.textContent = 'Filter Kecamatan :';
+                var pilih = document.createElement('select');
+                pilih.className = 'form-select';
+                pilih.id = filename + '-filter';
+                var options = ['Sukatani', 'Jatiluhur', 'Sukasari', 'Pondoksalam', 'Maniis', 'Cibatu', 'Darangdan', 'Plered', 'Kiarapedes', 'Purwakarta', 'Bojong', 'Babakancikao', 'Pasawahan', 'Tegalwaru', 'Campaka', 'Wanayasa', 'Bungursari'];
 
-        function filterLayer(selectedKecamatan) {
-            if (geojsonLayer) {
-                map.removeLayer(geojsonLayer);
-            }
-
-            if (selectedKecamatan === 'all') {
-                geojsonLayer.addTo(map);
-            } else {
-                geojsonLayer.eachLayer(function(layer) {
-                    if (layer.feature.properties.kecamatan === selectedKecamatan) {
-                        layer.addTo(map);
-                    }
+                options.forEach(function(value) {
+                    var option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = value;
+                    pilih.appendChild(option);
                 });
+
+                pilih.addEventListener('change', function() {
+                    var selectedOption = pilih.value;
+                    geojsonLayer.eachLayer(function(layer) {
+                        if (layer.feature.properties.kecamatan === selectedOption) {
+                            map.addLayer(layer);
+                            var bounds = layer.getBounds();
+                            map.fitBounds(bounds);
+                        } else {
+                            map.removeLayer(layer);
+                        }
+                    });
+                });
+
+                div.appendChild(label);
+                div.appendChild(pilih);
+                filterContent.appendChild(div);
+            } else if (
+                filename === '1699337880_4ffcdfe18b335a10da4b.geojson' ||
+                filename === '1699337856_b9a5f99519eee7f75b1e.geojson' ||
+                filename === '1699337867_a47935ba051fbfa17047.geojson' ||
+                filename === '1699337867_a47935ba051fbfa17047.geojson' ||
+                filename === '1698217971_42093bbf0e61626559ba.geojson' ||
+                filename === '1698218102_abfcfc6bdb10163652bd.geojson' ||
+                filename === '1698206182_584eaf2410cbaee7c49d.geojson' ||
+                filename === '1698218389_4296ac1da132eb73f2df.geojson' ||
+                filename === '1698218709_0e4241b44a8b2e2e396a.geojson' ||
+                filename === '1698220704_df6db1b7f71a71343f5d.geojson' ||
+                filename === '1698220877_609127c7c15d2fb64463.geojson' ||
+                filename === '1698221002_5ca9ce60271e834d6d79.geojson' ||
+                filename === '1698221128_ec4e4e012665f238c8f6.geojson' ||
+                filename === '1698221977_a55c3014f5d68fbfc0f1.geojson' ||
+                filename === '1698630958_47540c84cf8e6bdf3e38.geojson' ||
+                filename === '1698282713_6b48384e7ee9a270479a.geojson'
+            ) {
+                var div = document.createElement('div');
+                div.className = 'input-group';
+                var label = document.createElement('label');
+                label.htmlFor = filename + '-filter';
+                label.className = 'input-group-text';
+                label.textContent = 'Filter Layer :';
+                var select = document.createElement('select');
+                select.className = 'form-select';
+
+                select.addEventListener('change', function() {
+                    var selectedOption = select.value;
+                    geojsonLayer.eachLayer(function(layer) {
+                        if (layer.feature.properties.nama_pelaku_usaha === selectedOption || layer.feature.properties.name === selectedOption) {
+                            map.addLayer(layer);
+                            var bounds = layer.getBounds();
+                            map.fitBounds(bounds);
+                        } else {
+                            map.removeLayer(layer);
+                        }
+                    });
+                });
+
+                geojsonLayer.eachLayer(function(layer) {
+                    var option = document.createElement('option');
+                    option.value = layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name;
+                    option.textContent = layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name;
+                    select.appendChild(option);
+                });
+
+                div.appendChild(label);
+                div.appendChild(select);
+                filterContent.appendChild(div);
             }
         }
 
@@ -648,10 +698,7 @@ $this->withoutFooter = true;
             iconUrl: 'icons/pin.png',
             iconSize: [32, 32],
             iconAnchor: [16, 32],
-            popupAnchor: [0, -32],
-            shadowUrl: '',
-            shadowSize: [32, 32],
-            shadowAnchor: [16, 32]
+            popupAnchor: [0, -32]
         });
         var CustomPolygon = L.Draw.Polygon.extend({
             options: {
