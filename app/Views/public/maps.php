@@ -12,6 +12,7 @@ $this->withoutFooter = true;
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
 <link rel="stylesheet" href="<?= base_url('assets/css/L.switchBasemap.css') ?>" />
+<link rel="stylesheet" href="<?= base_url('assets/css/leaflet-measure-path.css') ?>" />
 
 
 <style>
@@ -282,6 +283,7 @@ $this->withoutFooter = true;
         <!-- Main content -->
         <div class="map map-full rounded-top rounded-lg-start">
             <div id="maps"></div>
+            
         </div>
 
     </div>
@@ -296,10 +298,11 @@ $this->withoutFooter = true;
 <?= $this->section('lowerbody') ?>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-<script src="https://unpkg.com/leaflet-kmz@latest/dist/leaflet-kmz.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 <script src="<?= base_url('assets/js/L.switchBasemap.js') ?>"></script>
-<script src="<?= base_url('uploads/geojson/Kecamatan.geojson') ?>"></script>
+<script src="<?= base_url('assets/js/leaflet.motion.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/leaflet-measure-path.js') ?>"></script>
+<script src="<?= base_url('assets/js/leaflet.PopupMovable.js') ?>"></script>
 <script type="text/javascript">
     var $html = $('<div class="loading"><div class="uil-ring-css" style="transform: scale(0.79);"><div></div></div></div>');
     $('body').append($html);
@@ -314,7 +317,9 @@ $this->withoutFooter = true;
         map = L.map('maps', {
             zoomDelta: 0.25,
             zoomSnap: 0,
-            zoomControl: false
+            zoomControl: false,
+            popupMovable: true,
+            closePopupOnClick: false
         }).setView([-6.5569400, 107.4433300], 12);
 
         map.addControl(new L.Control.Fullscreen({
@@ -426,16 +431,16 @@ $this->withoutFooter = true;
             }
         }
 
-
         function showLayer(feature, layer) {
             if (feature.geometry.type === "Polygon" || feature.properties) {
                 var popupContent = generatePopupContent(feature);
 
                 layer.bindPopup(popupContent);
 
-                layer.on('click', function() {
+                layer.on('click', function(e) {
                     showSidebar();
                     showDataInSidebar(feature, layer);
+                    motion(feature);
                 });
 
                 addLayerToMap(layer);
@@ -463,7 +468,6 @@ $this->withoutFooter = true;
             if (geojsonLayers[filename]) {
                 geojsonLayer = geojsonLayers[filename];
                 geojsonLayer.addTo(map);
-
                 updateFilterContentForLayer(filename);
             } else {
                 var target = BASE_URL + "/uploads/geojson/" + filename;
@@ -491,26 +495,53 @@ $this->withoutFooter = true;
                                         weight: 4,
                                     });
                                 });
-
                                 layer.on('mouseout', function(e) {
                                     geojsonLayer.resetStyle(this);
                                 });
                             }
+
                         });
-
                         updateFilterContentForLayer(filename);
-
                         geojsonLayer.addTo(map);
                         geojsonLayers[filename] = geojsonLayer;
-
                         var bounds = geojsonLayer.getBounds();
                         map.fitBounds(bounds);
-
-                        console.log('Isi dari filename setelah eksekusi enableLayer:', filename);
                     })
                     .catch(error => {
                         console.error(error);
                     });
+            }
+        }
+
+        function motion(feature) {
+            if (feature.properties.jarak_ke_ibukota) {
+                var kecamatan = feature.properties.kecamatan;
+                if (kecamatan !== 'Purwakarta') {
+                    var polygons = feature.geometry.coordinates;
+                    if (polygons) {
+                        for (var i = 0; i < polygons.length; i++) {
+                            var polygon = polygons[i];
+                            var startingCoordinates = polygon[0];
+                            var startingLatLng = L.latLng(startingCoordinates[1], startingCoordinates[0]);
+                            var destinationLatLng = L.latLng(-6.540182538838768, 107.4539082406753);
+                            L.motion.polyline([startingLatLng, destinationLatLng], {
+                                color: '#3f78e0'
+                            }, {
+                                auto: true,
+                                duration: 4000,
+                                easing: L.Motion.Ease.easeInOutQuart
+                            }, {
+                                removeOnEnd: true,
+                                showMarker: true,
+                                icon: L.icon({
+                                    iconUrl: 'icons/car.svg',
+                                    iconSize: [30, 30],
+                                    iconAnchor: [15, 30],
+                                })
+                            }).addTo(map);
+                        }
+                    }
+                }
             }
         }
 
@@ -695,7 +726,7 @@ $this->withoutFooter = true;
         map.addControl(drawControl);
 
         var customMarkerIcon = L.icon({
-            iconUrl: 'icons/pin.png',
+            iconUrl: 'icons/industry.svg',
             iconSize: [32, 32],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32]

@@ -78,7 +78,7 @@
 
     <?= isset($this->withoutFooter) ? '' : $this->include('public/_includes/footer') ?>
     <?= $this->include('public/_includes/gotop') ?>
-
+            
     <script src="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="<?= base_url('assets/js/plugins.js') ?>"></script>
