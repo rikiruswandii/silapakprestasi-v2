@@ -177,4 +177,39 @@ class Api extends BaseController
 
         return $this->__response(200, true, 'Monggo dipake sesuai kebutuhan mawon!', $data);
     }
+    public function districts()
+    {
+        try {
+            // Jika ini adalah permintaan AJAX
+            if ($this->request->isAJAX()) {
+                $id = $this->request->getVar('id');
+            }
+
+            $client = \Config\Services::curlrequest();
+
+            $districts = $client->get('https://api.teknowebapp.com/indonesian/health/aplicares/search?kabupaten=0130&key=developerganteng&jenis=R');
+
+            $response = json_decode($districts->getBody())->data;
+
+            // Jika ini adalah permintaan AJAX, kembalikan respons JSON
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON($response);
+            }
+
+            // Jika ini adalah permintaan HTTP biasa, tampilkan view atau respons lainnya
+            return view('public/maps', ['data' => $response]);
+        } catch (\Exception $e) {
+            // Tangani kesalahan dan kembalikan respons kesalahan jika perlu
+            log_message('error', 'Error fetching data from API: ' . $e->getMessage());
+
+            // Jika ini adalah permintaan AJAX, kembalikan respons JSON
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON(['error' => 'Failed to fetch data.']);
+            }
+
+            // Jika ini adalah permintaan HTTP biasa, tampilkan pesan kesalahan
+            return 'Failed to fetch data.';
+        }
+    }
+
 }

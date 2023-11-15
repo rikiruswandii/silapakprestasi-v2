@@ -235,8 +235,8 @@ function translate() {
 
   function mapDetect() {
     var width = $(window).width();
-
     if (width < 992) {
+
       $('#desktop-only').attr('style', 'display:none!important');
       $('#mobile-only').removeAttr('style');
     } else {

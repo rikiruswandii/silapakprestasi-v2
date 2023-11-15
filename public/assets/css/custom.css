@@ -258,11 +258,11 @@ height: 47px;
 .content {
 	display: none;
 	background-color: white;
-	height: 80vh;
-	overflow-x: auto;
+	height:93vh;
+	overflow-y: auto;
 }
 .rightContent {
-	height: 80vh;
+	height: 93vh;
 	overflow-x: auto;
 }
 
@@ -302,7 +302,7 @@ border: 2px solid #3f78e0;
 	display: initial;
 	justify-content: right;
 	z-index: 1001;
-	height: calc(100vh - 87px);
+	height: 100vh;
 }
 
 #sideRight {
@@ -325,7 +325,7 @@ border: 2px solid #3f78e0;
 		display:initial;
 		justify-content: left;
 		z-index: 1001;
-		height: calc(100vh - 87px);
+		height: 100vh;
 }
 
 /* CSS to hide the sidebar by default */
@@ -430,11 +430,11 @@ border: 2px solid #3f78e0;
 	transform: rotate(90deg);
 }
 .legend {
-	width: 240px;
-	height: 350px;
+	width: 180px;
+	height: 290px;
 	font-size: 14px;
 	background: #ffffff;
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 	border-radius: 5px;
 	overflow-x:auto;
 }

@@ -80,6 +80,7 @@ class Geojson extends BaseController
 
     public function upload()
     {
+        
         $validation = $this->validate([
             'name' => [
                 'label' => 'Nama',
@@ -91,7 +92,7 @@ class Geojson extends BaseController
             ],
             'file' => [
                 'label' => 'Berkas',
-                'rules' => 'uploaded[file]|mime_in[file,application/json,geojson]',
+                'rules' => 'uploaded[file]|mime_in[file,application/json,application/geo+json,text/plain]',
             ]
 
         ]);
@@ -151,7 +152,7 @@ class Geojson extends BaseController
             ],
             'file' => [
                 'label' => 'Berkas',
-                'rules' => 'mime_in[file,application/json]'
+                'rules' => 'mime_in[file,application/json,application/geo+json,text/plain]'
             ]
         ]);
 

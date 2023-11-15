@@ -347,6 +347,11 @@ class Mimes
             'application/json',
             'text/json',
         ],
+        'geojson'   =>  [
+                        'application/json',
+                        'application/geo+json',
+                        'text/json'
+        ],
         'pem'   => [
             'application/x-x509-user-cert',
             'application/x-pem-file',

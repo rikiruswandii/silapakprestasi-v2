@@ -77,7 +77,7 @@ $routes->get('category/(:segment)', 'News::category/$1');
 $routes->group('api', static function (RouteCollection $routes) {
     $routes->get('/', 'Api::index');
     $routes->get('kmz', 'Api::kmz');
-
+    $routes->get('districts', 'Api::districts');
     $routes->post('contact-us', 'Api::contact');
     $routes->post('subscribe/(:hash)', 'Api::subscribe/$1');
 });

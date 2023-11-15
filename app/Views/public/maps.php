@@ -26,9 +26,8 @@ $this->withoutFooter = true;
     }
 
     #maps {
-        background-color: #333;
         width: 100%;
-        height: calc(100vh - 87px);
+        height: 100vh;
         z-index: 0;
     }
 
@@ -37,17 +36,13 @@ $this->withoutFooter = true;
         overflow-y: auto;
     }
 
-    #mobile-only {
-        height: calc(100vh - 87px);
-    }
-
     .leaflet-draw-toolbar {
         display: none;
     }
 </style>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
-<div class="row gx-0" id="desktop-only" style="display: none !important;">
+<div class="row gx-0">
     <!-- Main content -->
     <div class="col-lg-12 align-self-stretch">
 
@@ -160,7 +155,12 @@ $this->withoutFooter = true;
             <button id="sideToggle" class="btn btn-primary btn-sm tggl-button rightToggle" style="position:absolute; display:block; z-index:1000; right:250px; top:105px;">
                 <i id="toggleIkon" class="fas fa-chevron-right"></i>
             </button>
-            <div class="legend" id="legend" style="position:absolute; display:block; z-index:1000; right:260px; bottom:10px;"></div>
+            <div class="legend" id="legend" style="position: absolute;
+	display: block;
+	z-index: 1000;
+	right: 260px;
+	bottom: 10px;
+	margin-left: 10px;"></div>
             <!-- Content for sidebarRight -->
             <div class="coordinateHeader">
                 <div class="icon-container">
@@ -282,17 +282,14 @@ $this->withoutFooter = true;
 
         <!-- Main content -->
         <div class="map map-full rounded-top rounded-lg-start">
-            <div id="maps"></div>
-            
+            <div id="maps" style="height: 100vh;"></div>
+
         </div>
 
     </div>
 
 </div>
 <?= script_tag("https://maps.googleapis.com/maps/api/js?key=" . $apiKey) ?>
-<div class="bg-soft-primary d-flex justify-content-center align-items-center text-center" id="mobile-only" style="display: none !important;">
-    <p>Halaman ini hanya bisa<br />bekerja di tampilan Desktop.</p>
-</div>
 <?= $this->endSection() ?>
 
 <?= $this->section('lowerbody') ?>
@@ -310,8 +307,10 @@ $this->withoutFooter = true;
     var BASE_URL = '<?= base_url() ?>';
     var API_KEY = '<?= session()->get('apikey') ?>';
 
+
     var map;
     var geojsonLayers = {};
+
 
     var initMap = function() {
         map = L.map('maps', {
@@ -321,6 +320,34 @@ $this->withoutFooter = true;
             popupMovable: true,
             closePopupOnClick: false
         }).setView([-6.5569400, 107.4433300], 12);
+        $.ajax({
+            type: 'GET',
+            url: '<?= base_url('api/districts') ?>',
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                response.forEach(function(hospital) {
+                    var latlng = [hospital.lat, hospital.lng];
+                    var customIcon = L.icon({
+                        iconUrl: 'icons/rumahsakit.svg',
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 32],
+                        popupAnchor: [0, -32]
+                    });
+                    var marker = L.marker(latlng, {
+                        icon: customIcon
+                    }).addTo(map);
+
+                    var popupContent = "<b>" + hospital.nmppk + "</b><br>" +
+                        "Alamat: " + hospital.nmjlnppk
+                    marker.bindPopup(popupContent);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX error: " + status, error);
+                console.log(xhr.responseText);
+            }
+        });
 
         map.addControl(new L.Control.Fullscreen({
             position: 'topleft'
@@ -338,11 +365,11 @@ $this->withoutFooter = true;
                 name: 'OSM'
             },
             {
-                layer: L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/Specialty/DeLorme_World_Base_Map/MapServer/tile/{z}/{y}/{x}', {
+                layer: L.tileLayer('http://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                     maxZoom: 20
                 }),
-                icon: BASE_URL + '/assets/img/DeLorme.jpg',
-                name: 'DeLorme'
+                icon: BASE_URL + '/assets/img/Google.jpg',
+                name: 'Google'
             },
             {
                 layer: L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
@@ -352,11 +379,11 @@ $this->withoutFooter = true;
                 name: 'Humanitarian'
             },
             {
-                layer: L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                layer: L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
                     maxZoom: 20
                 }),
-                icon: BASE_URL + '/assets/img/WSM.jpg',
-                name: 'World Street'
+                icon: BASE_URL + '/assets/img/light.jpg',
+                name: 'Light All'
             },
             {
                 layer: L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -432,35 +459,93 @@ $this->withoutFooter = true;
         }
 
         function showLayer(feature, layer) {
-            if (feature.geometry.type === "Polygon" || feature.properties) {
+            if (feature.geometry.type === "Polygon" || feature.geometry.type === "GeometryCollection") {
                 var popupContent = generatePopupContent(feature);
 
                 layer.bindPopup(popupContent);
-
-                layer.on('click', function(e) {
-                    showSidebar();
-                    showDataInSidebar(feature, layer);
-                    motion(feature);
+                if (feature.geometry.type === "Polygon") {
+                    layer.on('click', function(e) {
+                        showSidebar();
+                        showDataInSidebar(feature, layer);
+                        motion(feature);
+                    });
+                }
+                layer.on('mouseover', function(e) {
+                    this.setStyle({
+                        fillColor: feature.properties.fill,
+                        fillOpacity: 0.7,
+                        weight: 4,
+                    });
                 });
+                layer.on('mouseout', function(e) {
+                    geojsonLayer.resetStyle(this);
+                });
+
+                var bounds = geojsonLayer.getBounds();
+                map.fitBounds(bounds);
 
                 addLayerToMap(layer);
-            } else if (feature.geometry.type === "LineString" || feature.properties) {
+            } else if (feature.geometry.type === "LineString") {
                 var popupContent = generatePopupContent(feature);
 
                 layer.bindPopup(popupContent);
 
-                layer.on('click', function() {
-                    showSidebar();
-                    showDataInSidebar(feature, layer);
+                layer.on('mouseover', function(e) {
+                    this.setStyle({
+                        fillColor: feature.properties.fill,
+                        fillOpacity: 0.7,
+                        weight: 4,
+                    });
                 });
+                layer.on('mouseout', function(e) {
+                    geojsonLayer.resetStyle(this);
+                });
+
+                var bounds = geojsonLayer.getBounds();
+                map.fitBounds(bounds);
 
                 addLayerToMap(layer);
             } else if (feature.geometry.type === "Point") {
-                // Handle marker layers
-            } else {
-                console.log("Type not found!");
+                var popupContent = ''
+
+                if (feature.properties.kecamatan) {
+                    popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Nama : </span></br>' + feature.properties.name + '</p>';
+                    popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Jenis : </span></br>' + feature.properties.LAYER + '</p>';
+                    popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Alamat : </span></br>' + feature.properties.Alamat + ' km' + '</p>';
+                }
+
+                layer.bindPopup(popupContent);
             }
         }
+
+
+
+        var aw = BASE_URL + ('/uploads/geojson/pwk.geojson')
+
+        fetch(aw)
+            .then(response => response.json())
+            .then(geojsonData => {
+                geojsonLayer = L.geoJSON(geojsonData, {
+                    style: function(feature) {
+                        return {
+                            color: feature.properties.stroke,
+                            weight: feature.properties['stroke-width'] || 1,
+                            opacity: feature.properties['stroke-opacity'] || 1
+                        };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        var popupContent = generatePopupContent(feature);
+
+                        layer.bindPopup(popupContent);
+                    }
+                });
+                geojsonLayer.addTo(map);
+                var bounds = geojsonLayer.getBounds();
+                map.fitBounds(bounds);
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
         var geojsonLayer;
 
@@ -488,24 +573,14 @@ $this->withoutFooter = true;
                                 if (feature.properties && feature.properties.id === targetLayerID) {
                                     showLayer(feature, layer);
                                 }
-                                layer.on('mouseover', function(e) {
-                                    this.setStyle({
-                                        fillColor: feature.properties.fill,
-                                        fillOpacity: 0.7,
-                                        weight: 4,
-                                    });
-                                });
-                                layer.on('mouseout', function(e) {
-                                    geojsonLayer.resetStyle(this);
-                                });
+
                             }
 
                         });
                         updateFilterContentForLayer(filename);
                         geojsonLayer.addTo(map);
                         geojsonLayers[filename] = geojsonLayer;
-                        var bounds = geojsonLayer.getBounds();
-                        map.fitBounds(bounds);
+                        console.log(filename);
                     })
                     .catch(error => {
                         console.error(error);
@@ -549,27 +624,28 @@ $this->withoutFooter = true;
             var filterContent = document.getElementById('filterContent');
             filterContent.innerHTML = '';
 
-            if (filename === '1698892892_dec79bcda39a9aed09e5.geojson') {
+            if (filename === '1698892892_dec79bcda39a9aed09e5.geojson' ||
+                filename === '1699859859_6eef5f5f70627299da56.geojson') {
                 var div = document.createElement('div');
                 div.className = 'input-group';
                 var label = document.createElement('label');
                 label.htmlFor = filename + '-filter';
-                label.className = 'input-group-text'
+                label.className = 'input-group-text';
                 label.textContent = 'Filter Kecamatan :';
-                var pilih = document.createElement('select');
-                pilih.className = 'form-select';
-                pilih.id = filename + '-filter';
+                var select = document.createElement('select');
+                select.className = 'form-select';
+                select.id = filename + '-filter';
                 var options = ['Sukatani', 'Jatiluhur', 'Sukasari', 'Pondoksalam', 'Maniis', 'Cibatu', 'Darangdan', 'Plered', 'Kiarapedes', 'Purwakarta', 'Bojong', 'Babakancikao', 'Pasawahan', 'Tegalwaru', 'Campaka', 'Wanayasa', 'Bungursari'];
 
                 options.forEach(function(value) {
                     var option = document.createElement('option');
                     option.value = value;
                     option.textContent = value;
-                    pilih.appendChild(option);
+                    select.appendChild(option);
                 });
 
-                pilih.addEventListener('change', function() {
-                    var selectedOption = pilih.value;
+                select.addEventListener('change', function() {
+                    var selectedOption = select.value;
                     geojsonLayer.eachLayer(function(layer) {
                         if (layer.feature.properties.kecamatan === selectedOption) {
                             map.addLayer(layer);
@@ -582,7 +658,7 @@ $this->withoutFooter = true;
                 });
 
                 div.appendChild(label);
-                div.appendChild(pilih);
+                div.appendChild(select);
                 filterContent.appendChild(div);
             } else if (
                 filename === '1699337880_4ffcdfe18b335a10da4b.geojson' ||
@@ -679,11 +755,11 @@ $this->withoutFooter = true;
                     var layerType = feature.geometry.type;
 
                     if (!displayedTypes[layerType]) {
-                        content += '<p class="px-3" style="margin-top:7px; font-weight: bold; font-size:12px; color:black;">' + layerType + '</p>';
+                        content += '<p class="px-3 mb-1" style="margin-top:7px; font-weight: bold; font-size:12px; color:black;">' + layerType + '</p>';
                         displayedTypes[layerType] = true;
                     }
 
-                    content += '<p class="legend-item px-1" style="margin:10px; font-size:10px; color:black;">' +
+                    content += '<p class="legend-item m-1 px-1" style="font-size:10px; color:black;">' +
                         '<span class="color-box px-1" style="background: ' + fillColor + '"></span>' + layerName + '</p>';
                 }
             }

@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\KmzModel;
 use App\Models\GeojsonModel;
-use App\Models\SearchMap;
 
 class Maps extends BaseController
 {
@@ -38,21 +37,5 @@ class Maps extends BaseController
         ];
         return $this->view('public/maps', $variable);
     }
-    public function search()
-    {
-        $keyword = $this->request->getGet('keyword');
-
-        if (!empty($keyword)) {
-            $locationModel = new SearchMap();
-            $results = $locationModel->search($keyword);
-
-            return $this->response->setJSON(['results' => $results]);
-        } else {
-            // Handle jika 'keyword' tidak ada dalam URL
-            return $this->response->setJSON(['results' => []]);
-        }
-    }
-
-    
 }
 
