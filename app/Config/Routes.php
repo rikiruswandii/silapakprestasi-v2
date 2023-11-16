@@ -38,8 +38,12 @@ $routes->get('contact-us', 'Home::contact');
 $routes->get('about', 'Home::about');
 //convert kml
 // Routes for maps
-$routes->get('maps', 'Maps::index');
+
 // Search KMZ
+$routes->group('maps', function ($routes) {
+    $routes->get('/', 'Maps::index');
+    $routes->get('get_data/(:segment)', 'Maps::get_data/$1');
+});
 
 // Routes for investments
 $routes->group('investments', static function (RouteCollection $routes) {
@@ -65,6 +69,9 @@ $routes->get('regulation/(:segment)/(:segment)', 'Regulations::list/$1/$2');
 
 // Routes for search all products
 $routes->get('search', 'Search::index');
+
+//apifaskes
+$routes->get('get_data/(:segment)', 'ApiFaskes::getHealthFacilityData/$1');
 
 // Routes for news & category
 $routes->group('news', static function (RouteCollection $routes) {

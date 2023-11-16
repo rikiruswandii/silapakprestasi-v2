@@ -147,6 +147,55 @@ $this->withoutFooter = true;
                             <?php $index++; ?>
                         <?php endif ?>
                     <?php endforeach ?>
+                    <div class="accordion-item accordionStyle">
+                        <div class="accordion-header" id="headingSehat">
+                            <div class="accordion-button collapsed d-flex justify-content-between align-items-center" style="height: 50px" data-bs-toggle="collapse" data-bs-target="#collapseSehat" aria-expanded="false" aria-controls="collapseSehat">
+                                <div class="custom-text-style form-check" style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" class="form-check-input px-1" id="checkboxSehat" style="margin: 0;">
+                                    <label class="form-check-label" style="margin: 0;">Fasilitas Umum</label>
+                                </div>
+                                <i class="bi bi-chevron-right mx-2"></i>
+                            </div>
+                        </div>
+                        <div id="collapseSehat" class="accordion-collapse collapse" aria-labelledby="headingSehat">
+                            <div class="accordion-body">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-0 small">
+                                    <li class="btn-toggle-nav">
+                                        <div class="d-flex align-items-center custom-text-check form-check">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerRS" value="rumahSakit" data-filename="rumahSakit">
+                                            <label class="form-check-label noselect link-dark rounded px-2">
+                                                Rumah Sakit
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="btn-toggle-nav">
+                                        <div class="d-flex align-items-center custom-text-check form-check">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerApotek" value="apotek" data-filename="apotek">
+                                            <label class="form-check-label noselect link-dark rounded px-2">
+                                                Apotek
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="btn-toggle-nav">
+                                        <div class="d-flex align-items-center custom-text-check form-check">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerKlinik" value="klinik" data-filename="klinik">
+                                            <label class="form-check-label noselect link-dark rounded px-2">
+                                                Klinik
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="btn-toggle-nav">
+                                        <div class="d-flex align-items-center custom-text-check form-check">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerPuskesmas" value="puskesmas" data-filename="puskesmas">
+                                            <label class="form-check-label noselect link-dark rounded px-2">
+                                                Puskesmas
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -320,34 +369,6 @@ $this->withoutFooter = true;
             popupMovable: true,
             closePopupOnClick: false
         }).setView([-6.5569400, 107.4433300], 12);
-        $.ajax({
-            type: 'GET',
-            url: '<?= base_url('api/districts') ?>',
-            dataType: 'json',
-            success: function(response) {
-                console.log(response);
-                response.forEach(function(hospital) {
-                    var latlng = [hospital.lat, hospital.lng];
-                    var customIcon = L.icon({
-                        iconUrl: 'icons/rumahsakit.svg',
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 32],
-                        popupAnchor: [0, -32]
-                    });
-                    var marker = L.marker(latlng, {
-                        icon: customIcon
-                    }).addTo(map);
-
-                    var popupContent = "<b>" + hospital.nmppk + "</b><br>" +
-                        "Alamat: " + hospital.nmjlnppk
-                    marker.bindPopup(popupContent);
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX error: " + status, error);
-                console.log(xhr.responseText);
-            }
-        });
 
         map.addControl(new L.Control.Fullscreen({
             position: 'topleft'
@@ -573,9 +594,7 @@ $this->withoutFooter = true;
                                 if (feature.properties && feature.properties.id === targetLayerID) {
                                     showLayer(feature, layer);
                                 }
-
                             }
-
                         });
                         updateFilterContentForLayer(filename);
                         geojsonLayer.addTo(map);
@@ -623,7 +642,7 @@ $this->withoutFooter = true;
         function updateFilterContentForLayer(filename) {
             var filterContent = document.getElementById('filterContent');
             filterContent.innerHTML = '';
-
+            
             if (filename === '1698892892_dec79bcda39a9aed09e5.geojson' ||
                 filename === '1699859859_6eef5f5f70627299da56.geojson') {
                 var div = document.createElement('div');
@@ -936,6 +955,68 @@ $this->withoutFooter = true;
             drawnItems.addLayer(layer);
         });
 
+        function handleFasilitasUmumCheckbox() {
+            var fasilitasUmumChecked = $("#checkboxSehat").prop("checked");
+
+            $("#layerRS, #layerApotek, #layerKlinik, #layerPuskesmas").prop("checked", fasilitasUmumChecked);
+
+            handleMarkerData("#layerRS", "<?php echo base_url('maps/get_data/R'); ?>");
+            handleMarkerData("#layerApotek", "<?php echo base_url('maps/get_data/A'); ?>");
+            handleMarkerData("#layerKlinik", "<?php echo base_url('maps/get_data/B'); ?>");
+            handleMarkerData("#layerPuskesmas", "<?php echo base_url('maps/get_data/P'); ?>");
+        }
+
+
+        $("#checkboxSehat").change(handleFasilitasUmumCheckbox);
+
+        $(document).on("change", "[id^='layerRS'], [id^='layerApotek'], [id^='layerKlinik'], [id^='layerPuskesmas']", function() {
+            <?php if (isset($rumahsakitData, $apotekData, $klinikData, $puskesmasData)) : ?>
+                handleMarkerData("#layerRS", "<?php echo base_url('maps/get_data/R'); ?>");
+                handleMarkerData("#layerApotek", "<?php echo base_url('maps/get_data/A'); ?>");
+                handleMarkerData("#layerKlinik", "<?php echo base_url('maps/get_data/B'); ?>");
+                handleMarkerData("#layerPuskesmas", "<?php echo base_url('maps/get_data/P'); ?>");
+            <?php endif; ?>
+        });
+
+        function handleMarkerData(checkboxId, apiUrl) {
+            if ($(checkboxId).prop("checked")) {
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        if (data && data.status === true && data.data) {
+                            data.data.forEach(function(item) {
+                                if (item.lat !== 0 && item.lng !== 0 && item.nmppk) {
+                                    var latlng = [item.lat, item.lng];
+                                    var marker = L.marker(latlng).addTo(map);
+                                    var contentPopup = "<b>Nama : </b><br/>" + item.nmppk + "<br/>" +
+                                        "<b>Alamat : </b><br/>" + item.nmjlnppk;
+                                    marker.bindPopup(contentPopup);
+                                } else {
+                                    console.error('Invalid Data Format:', item);
+                                }
+                            });
+
+                        } else {
+                            console.error('Invalid API Response:', data.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Request Failed:', status, error);
+                        console.log(xhr.responseText);
+                    }
+                });
+            } else {
+                map.eachLayer(function(layer) {
+                    if (layer instanceof L.Marker) {
+                        map.removeLayer(layer);
+                    }
+                });
+            }
+        }
+
         $(document).on("change", "[id^='checkbox']", function() {
             var checkboxId = $(this).attr("id");
             var index = checkboxId.replace("checkbox", "");
@@ -954,6 +1035,7 @@ $this->withoutFooter = true;
             });
         });
 
+
         $(document).on("change", "[id^='layer']", function() {
             var checkboxId = $(this).attr("id");
             var index = checkboxId.replace("layer", "");
@@ -967,6 +1049,7 @@ $this->withoutFooter = true;
                 disableLayer(filename);
             }
         });
+
     };
 
     $(document).ready(function() {

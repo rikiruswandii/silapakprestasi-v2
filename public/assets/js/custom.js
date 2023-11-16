@@ -302,3 +302,22 @@ function translate() {
     });
   }
 })(jQuery);
+const district = '1698892892_dec79bcda39a9aed09e5.geojson';
+const pariwisata = '1699859859_6eef5f5f70627299da56.geojson';
+const pkkpr21 = '1700022127_5275c3b3822ec2153e95.geojson';
+const pkkpr22 = '1700020276_987819ae172c12f67724.geojson';
+const pkkpr23 = '1699337880_4ffcdfe18b335a10da4b.geojson';
+const kpIndustri = '1698206182_584eaf2410cbaee7c49d.geojson';
+const kpbtHortikultural = '1698217971_42093bbf0e61626559ba.geojson';
+const kphpTerbatas = '1698218102_abfcfc6bdb10163652bd.geojson';
+const kphpTetap = '1698218389_4296ac1da132eb73f2df.geojson';
+const kpPariwisata = '1698218709_0e4241b44a8b2e2e396a.geojson';
+const khpCagarAlam = '1698220704_df6db1b7f71a71343f5d.geojson';
+const waduk = '1698220877_609127c7c15d2fb64463.geojson';
+const sungai = '1698221002_5ca9ce60271e834d6d79.geojson';
+const situ = '1698221128_ec4e4e012665f238c8f6.geojson';
+const kpbtpLP2B = '1698221977_a55c3014f5d68fbfc0f1.geojson';
+const kppPerkotaan = '1698630958_47540c84cf8e6bdf3e38.geojson';
+const kpHutanLindung = '1698282713_6b48384e7ee9a270479a.geojson';
+const kppPedesaan = '1699951081_c2e4391079a608e4ad6d.geojson';
+const kpPerkebunan = '1699951998_cf35c38b950436ccf357.geojson';
