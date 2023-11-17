@@ -43,6 +43,8 @@ $routes->get('about', 'Home::about');
 $routes->group('maps', function ($routes) {
     $routes->get('/', 'Maps::index');
     $routes->get('get_data/(:segment)', 'Maps::get_data/$1');
+    $routes->get('get_wisata', 'Maps::get_wisata');
+    $routes->get('get_hotel', 'Maps::get_hotel');
 });
 
 // Routes for investments

@@ -148,6 +148,31 @@ $this->withoutFooter = true;
                         <?php endif ?>
                     <?php endforeach ?>
                     <div class="accordion-item accordionStyle">
+                        <div class="accordion-header" id="headingPotensi">
+                            <div class="accordion-button collapsed d-flex justify-content-between align-items-center" style="height: 50px" data-bs-toggle="collapse" data-bs-target="#collapsePotensi" aria-expanded="false" aria-controls="collapsePotensi">
+                                <div class="custom-text-style form-check" style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" class="form-check-input px-1" id="checkboxPotensi" style="margin: 0;">
+                                    <label class="form-check-label" style="margin: 0;">Potensi Investasi</label>
+                                </div>
+                                <i class="bi bi-chevron-right mx-2"></i>
+                            </div>
+                        </div>
+                        <div id="collapsePotensi" class="accordion-collapse collapse" aria-labelledby="headingPotensi">
+                            <div class="accordion-body">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-0 small">
+                                    <li class="btn-toggle-nav">
+                                        <div class="d-flex align-items-center custom-text-check form-check">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerWisata" value="wisata" data-filename="wisata">
+                                            <label class="form-check-label noselect link-dark rounded px-2">
+                                                Wisata
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item accordionStyle">
                         <div class="accordion-header" id="headingSehat">
                             <div class="accordion-button collapsed d-flex justify-content-between align-items-center" style="height: 50px" data-bs-toggle="collapse" data-bs-target="#collapseSehat" aria-expanded="false" aria-controls="collapseSehat">
                                 <div class="custom-text-style form-check" style="display: flex; align-items: center; gap: 10px;">
@@ -189,6 +214,14 @@ $this->withoutFooter = true;
                                             <input type="checkbox" class="form-check-input px-1" id="layerPuskesmas" value="puskesmas" data-filename="puskesmas">
                                             <label class="form-check-label noselect link-dark rounded px-2">
                                                 Puskesmas
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="btn-toggle-nav">
+                                        <div class="d-flex align-items-center custom-text-check form-check">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerHotel" value="hotel" data-filename="hotel">
+                                            <label class="form-check-label noselect link-dark rounded px-2">
+                                                Hotel
                                             </label>
                                         </div>
                                     </li>
@@ -642,9 +675,9 @@ $this->withoutFooter = true;
         function updateFilterContentForLayer(filename) {
             var filterContent = document.getElementById('filterContent');
             filterContent.innerHTML = '';
-            
-            if (filename === '1698892892_dec79bcda39a9aed09e5.geojson' ||
-                filename === '1699859859_6eef5f5f70627299da56.geojson') {
+
+            if (filename === district ||
+                filename === pariwisata) {
                 var div = document.createElement('div');
                 div.className = 'input-group';
                 var label = document.createElement('label');
@@ -680,22 +713,25 @@ $this->withoutFooter = true;
                 div.appendChild(select);
                 filterContent.appendChild(div);
             } else if (
-                filename === '1699337880_4ffcdfe18b335a10da4b.geojson' ||
+                filename === pkkpr23 ||
+                filename === pkkpr21 ||
+                filename === pkkpr22 ||
                 filename === '1699337856_b9a5f99519eee7f75b1e.geojson' ||
-                filename === '1699337867_a47935ba051fbfa17047.geojson' ||
-                filename === '1699337867_a47935ba051fbfa17047.geojson' ||
-                filename === '1698217971_42093bbf0e61626559ba.geojson' ||
-                filename === '1698218102_abfcfc6bdb10163652bd.geojson' ||
-                filename === '1698206182_584eaf2410cbaee7c49d.geojson' ||
-                filename === '1698218389_4296ac1da132eb73f2df.geojson' ||
-                filename === '1698218709_0e4241b44a8b2e2e396a.geojson' ||
-                filename === '1698220704_df6db1b7f71a71343f5d.geojson' ||
-                filename === '1698220877_609127c7c15d2fb64463.geojson' ||
-                filename === '1698221002_5ca9ce60271e834d6d79.geojson' ||
-                filename === '1698221128_ec4e4e012665f238c8f6.geojson' ||
-                filename === '1698221977_a55c3014f5d68fbfc0f1.geojson' ||
-                filename === '1698630958_47540c84cf8e6bdf3e38.geojson' ||
-                filename === '1698282713_6b48384e7ee9a270479a.geojson'
+                filename === kpbtHortikultural ||
+                filename === kphpTerbatas ||
+                filename === kpIndustri ||
+                filename === kphpTetap ||
+                filename === kpPariwisata ||
+                filename === khpCagarAlam ||
+                filename === waduk ||
+                filename === sungai ||
+                filename === situ ||
+                filename === kpbtpLP2B ||
+                filename === kpbTanamanPangan ||
+                filename === kppPerkotaan ||
+                filename === kppPedesaan ||
+                filename === kpPerkebunan ||
+                filename === kpHutanLindung
             ) {
                 var div = document.createElement('div');
                 div.className = 'input-group';
@@ -709,7 +745,8 @@ $this->withoutFooter = true;
                 select.addEventListener('change', function() {
                     var selectedOption = select.value;
                     geojsonLayer.eachLayer(function(layer) {
-                        if (layer.feature.properties.nama_pelaku_usaha === selectedOption || layer.feature.properties.name === selectedOption) {
+                        if (layer.feature.properties.nama_pelaku_usaha === selectedOption ||
+                            layer.feature.properties.name === selectedOption) {
                             map.addLayer(layer);
                             var bounds = layer.getBounds();
                             map.fitBounds(bounds);
@@ -721,8 +758,10 @@ $this->withoutFooter = true;
 
                 geojsonLayer.eachLayer(function(layer) {
                     var option = document.createElement('option');
-                    option.value = layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name;
-                    option.textContent = layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name;
+                    option.value = layer.feature.properties.nama_pelaku_usaha ||
+                        layer.feature.properties.name;
+                    option.textContent = layer.feature.properties.nama_pelaku_usaha ||
+                        layer.feature.properties.name;
                     select.appendChild(option);
                 });
 
@@ -956,25 +995,36 @@ $this->withoutFooter = true;
         });
 
         function handleFasilitasUmumCheckbox() {
-            var fasilitasUmumChecked = $("#checkboxSehat").prop("checked");
+            var fasilitasChecked = $("#checkboxSehat").prop("checked");
+            var potensiChecked = $("#checkboxPotensi").prop("checked");
+            if (fasilitasChecked) {
+                $("#layerRS, #layerApotek, #layerKlinik, #layerPuskesmas, #layerHotel").prop("checked", fasilitasChecked);
 
-            $("#layerRS, #layerApotek, #layerKlinik, #layerPuskesmas").prop("checked", fasilitasUmumChecked);
-
-            handleMarkerData("#layerRS", "<?php echo base_url('maps/get_data/R'); ?>");
-            handleMarkerData("#layerApotek", "<?php echo base_url('maps/get_data/A'); ?>");
-            handleMarkerData("#layerKlinik", "<?php echo base_url('maps/get_data/B'); ?>");
-            handleMarkerData("#layerPuskesmas", "<?php echo base_url('maps/get_data/P'); ?>");
-        }
-
-
-        $("#checkboxSehat").change(handleFasilitasUmumCheckbox);
-
-        $(document).on("change", "[id^='layerRS'], [id^='layerApotek'], [id^='layerKlinik'], [id^='layerPuskesmas']", function() {
-            <?php if (isset($rumahsakitData, $apotekData, $klinikData, $puskesmasData)) : ?>
                 handleMarkerData("#layerRS", "<?php echo base_url('maps/get_data/R'); ?>");
                 handleMarkerData("#layerApotek", "<?php echo base_url('maps/get_data/A'); ?>");
                 handleMarkerData("#layerKlinik", "<?php echo base_url('maps/get_data/B'); ?>");
                 handleMarkerData("#layerPuskesmas", "<?php echo base_url('maps/get_data/P'); ?>");
+                handleMarkerData("#layerHotel", "<?php echo base_url('maps/get_hotel'); ?>");
+            } else if (potensiChecked) {
+                $("#layerWisata").prop("checked", potensiChecked);
+                handleMarkerData("#layerWisata", "<?php echo base_url('maps/get_wisata'); ?>");
+
+            }
+
+        }
+
+
+        $("#checkboxSehat").change(handleFasilitasUmumCheckbox);
+        $("#checkboxPotensi").change(handleFasilitasUmumCheckbox);
+
+        $(document).on("change", "[id^='layerRS'], [id^='layerApotek'], [id^='layerKlinik'], [id^='layerPuskesmas'], [id^='layerWisata'], [id^='layerHotel']", function() {
+            <?php if (isset($rumahsakitData, $apotekData, $klinikData, $puskesmasData, $wisataData, $hotelData)) : ?>
+                handleMarkerData("#layerRS", "<?php echo base_url('maps/get_data/R'); ?>");
+                handleMarkerData("#layerApotek", "<?php echo base_url('maps/get_data/A'); ?>", "<?php echo base_url('maps/get_data/S'); ?>");
+                handleMarkerData("#layerKlinik", "<?php echo base_url('maps/get_data/B'); ?>");
+                handleMarkerData("#layerPuskesmas", "<?php echo base_url('maps/get_data/P'); ?>");
+                handleMarkerData("#layerWisata", "<?php echo base_url('maps/get_wisata'); ?>");
+                handleMarkerData("#layerHotel", "<?php echo base_url('maps/get_hotel'); ?>");
             <?php endif; ?>
         });
 
@@ -986,21 +1036,53 @@ $this->withoutFooter = true;
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
+                        console.log('Server Response:', data);
                         if (data && data.status === true && data.data) {
                             data.data.forEach(function(item) {
-                                if (item.lat !== 0 && item.lng !== 0 && item.nmppk) {
-                                    var latlng = [item.lat, item.lng];
-                                    var marker = L.marker(latlng).addTo(map);
-                                    var contentPopup = "<b>Nama : </b><br/>" + item.nmppk + "<br/>" +
-                                        "<b>Alamat : </b><br/>" + item.nmjlnppk;
+                                var latlng = [item.lat || item.latitude, item.lng || item.longitude];
+                                var iconColor;
+                                if (item.jnsppk === 'R') {
+                                    url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png';
+                                } else if (item.jnsppk === 'A') {
+                                    url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png';
+                                } else if (item.jnsppk === 'B') {
+                                    url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png';
+                                } else if (item.jnsppk === 'P') {
+                                    url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png';
+                                } else if (item.kategori === 'Wisata') {
+                                    url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png';
+                                } else if (item.kategori === 'Hotel') {
+                                    url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+                                }
+                                var greenIcon = new L.Icon({
+                                    iconUrl: url,
+                                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                    iconSize: [25, 41],
+                                    iconAnchor: [12, 41],
+                                    popupAnchor: [1, -34],
+                                    shadowSize: [41, 41]
+                                });
+
+                                if (latlng[0] !== undefined && latlng[1] !== undefined && (item.nmppk || item.nama)) {
+                                    var marker = L.marker(latlng, {
+                                        icon: greenIcon
+                                    }).addTo(map);
+
+                                    var label1 = 'Alamat : ';
+                                    var label2 = 'Deskripsi : ';
+
+                                    var label = (item.nmjlnppk || item.alamat) ? label1 : label2;
+
+                                    var contentPopup = "<b>Nama : </b><br/>" + (item.nmppk || item.nama) + "<br/>" +
+                                        "<b>" + label + "</b><br/>" + (item.nmjlnppk || item.alamat || "<label style='font-size:12px;'>" + item.deskripsi) + "</label><br/>";
+
                                     marker.bindPopup(contentPopup);
                                 } else {
                                     console.error('Invalid Data Format:', item);
                                 }
                             });
-
                         } else {
-                            console.error('Invalid API Response:', data.error);
+                            console.error('Invalid API Response:', data);
                         }
                     },
                     error: function(xhr, status, error) {
