@@ -429,6 +429,38 @@ border: 2px solid #3f78e0;
 .rotate180 {
 	transform: rotate(90deg);
 }
+#legend-container {
+	position: absolute;
+	bottom: -70px;
+	right: 10px;
+	width: 180px;
+	background-color: white;
+	padding: 10px;
+	z-index: 1000;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
+	overflow-y: auto;
+	max-height: 0;
+	/* Awalnya diset menjadi 0 */
+	font-size: 12px;
+	opacity: 0;
+	/* Awalnya diset menjadi 0 */
+	transition: max-height 0.3s ease, opacity 0.3s ease;
+	/* Transisi untuk max-height dan opacity */
+}
+.hrLegend {
+	margin-top: 10px;
+    margin-bottom: 10px;
+	border-bottom: 1px solid black;
+	width: 100%;
+}
+
+#legend-container.active {
+	max-height: 200px;
+	/* Setelah diaktifkan, tinggi maksimum diubah menjadi 200px */
+	opacity: 1;
+	/* Setelah diaktifkan, opacity diubah menjadi 1 */
+}
 .legend {
 	width: 180px;
 	height: 290px;
@@ -441,23 +473,27 @@ border: 2px solid #3f78e0;
 .legend-item,
 .checkbox-item {
 	display: flex;
-	justify-content:left;
+	justify-content:baseline;
 	align-items: left;
-	gap: 8px;
+	gap: 5px;
 }
 .color-box {
 	width: 18px;
 	height: 18px;
 	display: inline-block;
 	border-radius: 0;
+	padding: 2px;
 }
-.legend::-webkit-scrollbar {
+.legend::-webkit-scrollbar,
+#legend-container::-webkit-scrollbar {
 	width: 5px;
 }
-.legend::-webkit-scrollbar-track {
+.legend::-webkit-scrollbar-track,
+#legend-container::-webkit-scrollbar-track {
 	background: #e3e3e3;
 }
-.legend::-webkit-scrollbar-thumb {
+.legend::-webkit-scrollbar-thumb,
+#legend-container::-webkit-scrollbar-thumb {
 	background-color: #3f78e0;
 	border-radius: 20px;
 	border: 1px solid #e3e3e3;

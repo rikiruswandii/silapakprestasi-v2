@@ -13,6 +13,7 @@ $this->withoutFooter = true;
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
 <link rel="stylesheet" href="<?= base_url('assets/css/L.switchBasemap.css') ?>" />
 <link rel="stylesheet" href="<?= base_url('assets/css/leaflet-measure-path.css') ?>" />
+<link rel="stylesheet" href="<?= base_url('assets/css/L.Control.HtmlLegend.css') ?>" />
 
 
 <style>
@@ -69,8 +70,8 @@ $this->withoutFooter = true;
             </div>
 
             <div class="p-2 content" id="filterContent">
-                <p style="font-size:15px;">Silahkan aktifkan layer untuk fitur ini</p>
-                <p class="text-danger" style="font-size:12px;">*Catatan: pastikan layer tidak bertumpuk sebelum menggunakan fitur ini!</p>
+                <p style="font-size: 15px;">Silahkan aktifkan layer untuk fitur ini</p>
+                <p class="text-danger" style="font-size: 12px;">*Catatan: pastikan layer tidak bertumpuk sebelum menggunakan fitur ini!</p>
             </div>
 
             <div class="content" id="layerContent">
@@ -162,7 +163,7 @@ $this->withoutFooter = true;
                                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-0 small">
                                     <li class="btn-toggle-nav">
                                         <div class="d-flex align-items-center custom-text-check form-check">
-                                            <input type="checkbox" class="form-check-input px-1" id="layerWisata" value="wisata" data-filename="wisata">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerWisata" value="wisata" data-filename="wisata" name="Wisata">
                                             <label class="form-check-label noselect link-dark rounded px-2">
                                                 Wisata
                                             </label>
@@ -187,39 +188,15 @@ $this->withoutFooter = true;
                                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-0 small">
                                     <li class="btn-toggle-nav">
                                         <div class="d-flex align-items-center custom-text-check form-check">
-                                            <input type="checkbox" class="form-check-input px-1" id="layerRS" value="rumahSakit" data-filename="rumahSakit">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerFaskes" value="faskes" data-filename="faskes" name="Fasilitas Kesehatan">
                                             <label class="form-check-label noselect link-dark rounded px-2">
-                                                Rumah Sakit
+                                                Fasilitas Kesehatan
                                             </label>
                                         </div>
                                     </li>
                                     <li class="btn-toggle-nav">
                                         <div class="d-flex align-items-center custom-text-check form-check">
-                                            <input type="checkbox" class="form-check-input px-1" id="layerApotek" value="apotek" data-filename="apotek">
-                                            <label class="form-check-label noselect link-dark rounded px-2">
-                                                Apotek
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li class="btn-toggle-nav">
-                                        <div class="d-flex align-items-center custom-text-check form-check">
-                                            <input type="checkbox" class="form-check-input px-1" id="layerKlinik" value="klinik" data-filename="klinik">
-                                            <label class="form-check-label noselect link-dark rounded px-2">
-                                                Klinik
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li class="btn-toggle-nav">
-                                        <div class="d-flex align-items-center custom-text-check form-check">
-                                            <input type="checkbox" class="form-check-input px-1" id="layerPuskesmas" value="puskesmas" data-filename="puskesmas">
-                                            <label class="form-check-label noselect link-dark rounded px-2">
-                                                Puskesmas
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li class="btn-toggle-nav">
-                                        <div class="d-flex align-items-center custom-text-check form-check">
-                                            <input type="checkbox" class="form-check-input px-1" id="layerHotel" value="hotel" data-filename="hotel">
+                                            <input type="checkbox" class="form-check-input px-1" id="layerHotel" value="hotel" data-filename="hotel" name="Hotel">
                                             <label class="form-check-label noselect link-dark rounded px-2">
                                                 Hotel
                                             </label>
@@ -367,7 +344,7 @@ $this->withoutFooter = true;
             <div id="maps" style="height: 100vh;"></div>
 
         </div>
-
+        <div id="legend-container"></div>
     </div>
 
 </div>
@@ -382,6 +359,7 @@ $this->withoutFooter = true;
 <script src="<?= base_url('assets/js/leaflet.motion.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/leaflet-measure-path.js') ?>"></script>
 <script src="<?= base_url('assets/js/leaflet.PopupMovable.js') ?>"></script>
+<script src="<?= base_url('assets/js/L.Control.HtmlLegend.js') ?>"></script>
 <script type="text/javascript">
     var $html = $('<div class="loading"><div class="uil-ring-css" style="transform: scale(0.79);"><div></div></div></div>');
     $('body').append($html);
@@ -675,7 +653,6 @@ $this->withoutFooter = true;
         function updateFilterContentForLayer(filename) {
             var filterContent = document.getElementById('filterContent');
             filterContent.innerHTML = '';
-
             if (filename === district ||
                 filename === pariwisata) {
                 var div = document.createElement('div');
@@ -808,7 +785,7 @@ $this->withoutFooter = true;
                 var feature = features[i];
 
                 if (feature.properties && (feature.properties.fill || feature.properties.stroke)) {
-                    var layerName = feature.properties.name || feature.properties.nama || feature.properties.nama_pelaku_usaha;
+                    var layerName = feature.properties.name || feature.properties.nama || feature.properties.nama_pelaku_usaha || feature.properties.description.value;
                     var fillColor = feature.properties.fill || feature.properties.stroke;
                     var layerType = feature.geometry.type;
 
@@ -876,24 +853,13 @@ $this->withoutFooter = true;
         });
 
         document.getElementById('btnMarkers').addEventListener('click', function() {
-
             map.off(L.Draw.Event.CREATED);
-
-
             map.on(L.Draw.Event.CREATED, function(e) {
                 var layer = e.layer;
-
-
                 var customPopupContent = "Latitude: " + layer.getLatLng().lat + "<br>Longitude: " + layer.getLatLng().lng;
-
-
                 layer.bindPopup(customPopupContent).openPopup();
-
-
                 drawnItems.addLayer(layer);
             });
-
-
             drawControl.setDrawingOptions({
                 marker: {
                     icon: customMarkerIcon
@@ -905,7 +871,6 @@ $this->withoutFooter = true;
         document.getElementById('btnPolyline').addEventListener('click', function() {
 
             map.off(L.Draw.Event.CREATED);
-
 
             map.on(L.Draw.Event.CREATED, function(e) {
                 var layer = e.layer;
@@ -925,7 +890,6 @@ $this->withoutFooter = true;
             drawControl._toolbars.draw._modes.polyline.handler.enable();
         });
 
-
         function calculatePolylineLength(polyline) {
             var latlngs = polyline.getLatLngs();
             var length = 0;
@@ -936,8 +900,6 @@ $this->withoutFooter = true;
 
             return length;
         }
-
-
 
         document.getElementById('btnPolygon').addEventListener('click', function() {
 
@@ -998,12 +960,12 @@ $this->withoutFooter = true;
             var fasilitasChecked = $("#checkboxSehat").prop("checked");
             var potensiChecked = $("#checkboxPotensi").prop("checked");
             if (fasilitasChecked) {
-                $("#layerRS, #layerApotek, #layerKlinik, #layerPuskesmas, #layerHotel").prop("checked", fasilitasChecked);
+                $("#layerFaskes, #layerHotel").prop("checked", fasilitasChecked);
 
-                handleMarkerData("#layerRS", "<?php echo base_url('maps/get_data/R'); ?>");
-                handleMarkerData("#layerApotek", "<?php echo base_url('maps/get_data/A'); ?>");
-                handleMarkerData("#layerKlinik", "<?php echo base_url('maps/get_data/B'); ?>");
-                handleMarkerData("#layerPuskesmas", "<?php echo base_url('maps/get_data/P'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/R'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/A'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/B'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/P'); ?>");
                 handleMarkerData("#layerHotel", "<?php echo base_url('maps/get_hotel'); ?>");
             } else if (potensiChecked) {
                 $("#layerWisata").prop("checked", potensiChecked);
@@ -1013,22 +975,23 @@ $this->withoutFooter = true;
 
         }
 
-
-        $("#checkboxSehat").change(handleFasilitasUmumCheckbox);
         $("#checkboxPotensi").change(handleFasilitasUmumCheckbox);
+        $("#checkboxSehat").change(handleFasilitasUmumCheckbox);
 
-        $(document).on("change", "[id^='layerRS'], [id^='layerApotek'], [id^='layerKlinik'], [id^='layerPuskesmas'], [id^='layerWisata'], [id^='layerHotel']", function() {
+        $(document).on("change", "[id^='layerFaskes'], [id^='layerWisata'], [id^='layerHotel']", function() {
             <?php if (isset($rumahsakitData, $apotekData, $klinikData, $puskesmasData, $wisataData, $hotelData)) : ?>
-                handleMarkerData("#layerRS", "<?php echo base_url('maps/get_data/R'); ?>");
-                handleMarkerData("#layerApotek", "<?php echo base_url('maps/get_data/A'); ?>", "<?php echo base_url('maps/get_data/S'); ?>");
-                handleMarkerData("#layerKlinik", "<?php echo base_url('maps/get_data/B'); ?>");
-                handleMarkerData("#layerPuskesmas", "<?php echo base_url('maps/get_data/P'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/R'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/A'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/B'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/P'); ?>");
                 handleMarkerData("#layerWisata", "<?php echo base_url('maps/get_wisata'); ?>");
                 handleMarkerData("#layerHotel", "<?php echo base_url('maps/get_hotel'); ?>");
             <?php endif; ?>
         });
+        var allLegendData = [];
 
         function handleMarkerData(checkboxId, apiUrl) {
+            var legendData = [];
             if ($(checkboxId).prop("checked")) {
                 $.ajax({
                     url: apiUrl,
@@ -1047,7 +1010,7 @@ $this->withoutFooter = true;
                                     url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png';
                                 } else if (item.jnsppk === 'B') {
                                     url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png';
-                                } else if (item.jnsppk === 'P') {
+                                } else if (item.jnsppk === '0') {
                                     url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png';
                                 } else if (item.kategori === 'Wisata') {
                                     url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png';
@@ -1062,6 +1025,11 @@ $this->withoutFooter = true;
                                     popupAnchor: [1, -34],
                                     shadowSize: [41, 41]
                                 });
+                                legendData.push({
+                                    category: item.kategori || item.jnsppk,
+                                    name: item.nmppk || item.nama,
+                                });
+                                console.log("Legend: " + legendData);
 
                                 if (latlng[0] !== undefined && latlng[1] !== undefined && (item.nmppk || item.nama)) {
                                     var marker = L.marker(latlng, {
@@ -1081,6 +1049,10 @@ $this->withoutFooter = true;
                                     console.error('Invalid Data Format:', item);
                                 }
                             });
+                            $('#legend-container').addClass('active');
+                            allLegendData = allLegendData.concat(legendData);
+                            addLegenda(allLegendData)
+                            filterBaru(checkboxId);
                         } else {
                             console.error('Invalid API Response:', data);
                         }
@@ -1096,7 +1068,128 @@ $this->withoutFooter = true;
                         map.removeLayer(layer);
                     }
                 });
+                removeLegend();
+                $('#legend-container').removeClass('active');
             }
+        }
+
+        function filterBaru(checkboxId) {
+            console.log('nilai :', checkboxId);
+            var filterContent = document.getElementById('filterContent');
+            filterContent.innerHTML = '';
+
+            if (checkboxId === '#layerFaskes') {
+                var div = document.createElement('div');
+                div.className = 'input-group';
+                var label = document.createElement('label');
+                label.htmlFor = 'faskes-filter';
+                label.className = 'input-group-text';
+                label.textContent = 'Kesehatan :';
+                var select = document.createElement('select');
+                select.className = 'form-select';
+                select.id = 'faskes-filter';
+                var options = [{
+                        value: 'All',
+                        label: 'Semua'
+                    },
+                    {
+                        value: 'R',
+                        label: 'Rumah Sakit'
+                    },
+                    {
+                        value: 'A',
+                        label: 'Apotik'
+                    },
+                    {
+                        value: 'B',
+                        label: 'Klinik'
+                    },
+                    {
+                        value: 'P',
+                        label: 'Puskesmas'
+                    }
+                ];
+
+                options.forEach(function(option) {
+                    var optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.label;
+                    select.appendChild(optionElement);
+                });
+
+                select.addEventListener('change', function() {
+                    var selectedOption = select.value;
+                    console.log('Nilai seleksi:', selectedOption);
+                    handleFaskesFilter(selectedOption);
+                });
+
+                div.appendChild(label);
+                div.appendChild(select);
+                filterContent.appendChild(div);
+            }
+        }
+
+        function handleFaskesFilter(selectedOption) {
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            if ($("#layerFaskes").prop("checked")) {
+                <?php if (isset($rumahsakitData, $apotekData, $klinikData, $puskesmasData, $wisataData, $hotelData)) : ?>
+                    if (selectedOption === "All") {
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/R'); ?>");
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/A'); ?>");
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/B'); ?>");
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/P'); ?>");
+                    } else {
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/'); ?>/" + selectedOption);
+                    }
+                <?php endif; ?>
+            } else {
+                map.eachLayer(function(layer) {
+                    if (layer instanceof L.Marker) {
+                        map.removeLayer(layer);
+                    }
+                });
+            }
+        }
+
+
+        function addLegenda(legendData) {
+            console.log("Legend: ", legendData);
+            var legendContent = '<h6>Legend</h6>';
+            legendContent += '<hr/ class="mt-0 mb-1">'; // Tambahkan garis horizontal di bawah h4
+            legendData.forEach(function(item) {
+                legendContent += '<div class="legend-item"><img class="color-box" src="' + getMarkerIconUrl(item.category) + '" /> ' + item.name + '</div>';
+            });
+
+            $('#legend-container').html(legendContent);
+        }
+
+
+        function removeLegend() {
+            $('#legend-container').empty();
+        }
+
+        function getMarkerIconUrl(category) {
+            var url;
+            if (category === 'R') {
+                url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png';
+            } else if (category === 'A') {
+                url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png';
+            } else if (category === 'B') {
+                url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png';
+            } else if (category === '0' || category === '1') {
+                url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png';
+            } else if (category === 'Wisata') {
+                url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png';
+            } else if (category === 'Hotel') {
+                url = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+            }
+
+            return url;
         }
 
         $(document).on("change", "[id^='checkbox']", function() {
