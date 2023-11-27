@@ -71,7 +71,9 @@ $this->withoutFooter = true;
 
             <div class="p-2 content" id="filterContent">
                 <p style="font-size: 15px;">Silahkan aktifkan layer untuk fitur ini</p>
-                <p class="text-danger" style="font-size: 12px;">*Catatan: pastikan layer tidak bertumpuk sebelum menggunakan fitur ini!</p>
+                <div class="border-collapse"><label class="text-danger p-1" style="font-size: 12px;">
+                        *Catatan: pastikan layer tidak bertumpuk
+                        &nbsp;sebelum menggunakan fitur ini!</label></div>
             </div>
 
             <div class="content" id="layerContent">
@@ -190,7 +192,7 @@ $this->withoutFooter = true;
                                         <div class="d-flex align-items-center custom-text-check form-check">
                                             <input type="checkbox" class="form-check-input px-1" id="layerFaskes" value="faskes" data-filename="faskes" name="Fasilitas Kesehatan">
                                             <label class="form-check-label noselect link-dark rounded px-2">
-                                                Fasilitas Kesehatan
+                                                Kesehatan
                                             </label>
                                         </div>
                                     </li>
@@ -214,12 +216,6 @@ $this->withoutFooter = true;
             <button id="sideToggle" class="btn btn-primary btn-sm tggl-button rightToggle" style="position:absolute; display:block; z-index:1000; right:250px; top:105px;">
                 <i id="toggleIkon" class="fas fa-chevron-right"></i>
             </button>
-            <div class="legend" id="legend" style="position: absolute;
-	display: block;
-	z-index: 1000;
-	right: 260px;
-	bottom: 10px;
-	margin-left: 10px;"></div>
             <!-- Content for sidebarRight -->
             <div class="coordinateHeader">
                 <div class="icon-container">
@@ -243,6 +239,24 @@ $this->withoutFooter = true;
                                 <li id="kelurahan"></li>
                                 <li id="populasi"></li>
                                 <li id="kepadatan_penduduk"></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <div class="reeQ d-flex justify-content-between align-items-center px-3 sub bg-soft-primary" data-bs-toggle="collapse" data-bs-target="#unggulan-collapse" aria-expanded="false">
+                            <span class="custom-text-style">Potensi Unggulan</span>
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                        <div class="collapse px-3" id="unggulan-collapse">
+                            <ul id="sideContent" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li id="kehutanan"></li>
+                                <li id="pertanian"></li>
+                                <li id="perkebunan"></li>
+                                <li id="peternakan"></li>
+                                <li id="perikanan"></li>
+                                <li id="pertambangan"></li>
+                                <li id="industri"></li>
+                                <li id="pariwisata"></li>
                             </ul>
                         </div>
                     </li>
@@ -440,14 +454,14 @@ $this->withoutFooter = true;
 
             if (feature.properties.description && feature.properties.description.value) {
                 popupContent += '<p>' + feature.properties?.description?.value || feature.properties?.name || "No description" + '</p>';
-            } else if (feature.properties.name) {
-                popupContent += '<p style="font-size:12px; font-weight:bold;">' + feature.properties.name + '</p>';
             }
 
-            if (feature.properties.kecamatan) {
-                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Kecamatan : </span></br>' + feature.properties.kecamatan + '</p>';
-                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Luas Wilayah : </span></br>' + feature.properties.luas + '</p>';
-                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Jarak ke Ibukota Kecamatan : </span></br>' + feature.properties.jarak_ke_ibukota + ' km' + '</p>';
+            if (feature.properties.jarak_ke_ibukota || feature.properties.jarak_ke_ibukota_kecamatan) {
+                var label2 = 'Kecamatan  :';
+                var label3 = 'Desa :';
+                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">' + (feature.properties.kecamatan ? label2 : label3) + '</span></br>' + (feature.properties.kecamatan || feature.properties.name) + '</p>';
+                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Luas Wilayah : </span></br>' + (feature.properties.luas || feature.properties.luas === 'km²'?'belum ada data':'') + '</p>';
+                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Jarak ke Ibukota Kecamatan : </span></br>' + (feature.properties.jarak_ke_ibukota + 'km' || feature.properties.jarak_ke_ibukota_kecamatan === 'km' ? 'belum ada data' : '') + '</p>';
             }
 
             if (feature.properties.nama_pelaku_usaha) {
@@ -473,20 +487,9 @@ $this->withoutFooter = true;
 
         function disableLayer(filename) {
             if (map && geojsonLayers[filename]) {
+                removeLegend();
+                $('#legend-container').removeClass('active');
                 map.removeLayer(geojsonLayers[filename]);
-                var index = activeLayers.indexOf(geojsonLayers[filename]);
-                if (index !== -1) {
-                    activeLayers.splice(index, 1);
-                    activeFeatures.splice(index, 1);
-                    generateLegendContent(activeFeatures);
-
-                    if (activeFeatures.length === 0) {
-                        var legendDiv = document.getElementById('legend');
-                        if (legendDiv) {
-                            legendDiv.innerHTML = '';
-                        }
-                    }
-                }
             }
         }
 
@@ -537,22 +540,12 @@ $this->withoutFooter = true;
                 map.fitBounds(bounds);
 
                 addLayerToMap(layer);
-            } else if (feature.geometry.type === "Point") {
-                var popupContent = ''
-
-                if (feature.properties.kecamatan) {
-                    popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Nama : </span></br>' + feature.properties.name + '</p>';
-                    popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Jenis : </span></br>' + feature.properties.LAYER + '</p>';
-                    popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Alamat : </span></br>' + feature.properties.Alamat + ' km' + '</p>';
-                }
-
-                layer.bindPopup(popupContent);
             }
         }
 
 
 
-        var aw = BASE_URL + ('/uploads/geojson/pwk.geojson')
+        var aw = BASE_URL + ('/uploads/geojson/pwk.geojson');
 
         fetch(aw)
             .then(response => response.json())
@@ -608,8 +601,10 @@ $this->withoutFooter = true;
                             }
                         });
                         updateFilterContentForLayer(filename);
+                        $('#legend-container').addClass('active');
                         geojsonLayer.addTo(map);
                         geojsonLayers[filename] = geojsonLayer;
+                        console.log("data :", geojsonData);
                         console.log(filename);
                     })
                     .catch(error => {
@@ -653,8 +648,7 @@ $this->withoutFooter = true;
         function updateFilterContentForLayer(filename) {
             var filterContent = document.getElementById('filterContent');
             filterContent.innerHTML = '';
-            if (filename === district ||
-                filename === pariwisata) {
+            if (filename === district) {
                 var div = document.createElement('div');
                 div.className = 'input-group';
                 var label = document.createElement('label');
@@ -690,25 +684,10 @@ $this->withoutFooter = true;
                 div.appendChild(select);
                 filterContent.appendChild(div);
             } else if (
+                filename === desa ||
                 filename === pkkpr23 ||
                 filename === pkkpr21 ||
-                filename === pkkpr22 ||
-                filename === '1699337856_b9a5f99519eee7f75b1e.geojson' ||
-                filename === kpbtHortikultural ||
-                filename === kphpTerbatas ||
-                filename === kpIndustri ||
-                filename === kphpTetap ||
-                filename === kpPariwisata ||
-                filename === khpCagarAlam ||
-                filename === waduk ||
-                filename === sungai ||
-                filename === situ ||
-                filename === kpbtpLP2B ||
-                filename === kpbTanamanPangan ||
-                filename === kppPerkotaan ||
-                filename === kppPedesaan ||
-                filename === kpPerkebunan ||
-                filename === kpHutanLindung
+                filename === pkkpr22
             ) {
                 var div = document.createElement('div');
                 div.className = 'input-group';
@@ -719,15 +698,34 @@ $this->withoutFooter = true;
                 var select = document.createElement('select');
                 select.className = 'form-select';
 
+                var defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Select Filter';
+                select.appendChild(defaultOption);
+
+                var selectedLayers = [];
+
                 select.addEventListener('change', function() {
                     var selectedOption = select.value;
+
+                    if (selectedOption !== '') {
+
+                        geojsonLayer.eachLayer(function(layer) {
+                            if (
+                                layer.feature.properties.nama_pelaku_usaha === selectedOption ||
+                                layer.feature.properties.name === selectedOption
+                            ) {
+                                map.addLayer(layer);
+                                selectedLayers.push(layer);
+
+                                var bounds = layer.getBounds();
+                                map.fitBounds(bounds);
+                            }
+                        });
+                    }
+
                     geojsonLayer.eachLayer(function(layer) {
-                        if (layer.feature.properties.nama_pelaku_usaha === selectedOption ||
-                            layer.feature.properties.name === selectedOption) {
-                            map.addLayer(layer);
-                            var bounds = layer.getBounds();
-                            map.fitBounds(bounds);
-                        } else {
+                        if (!selectedLayers.includes(layer)) {
                             map.removeLayer(layer);
                         }
                     });
@@ -735,16 +733,15 @@ $this->withoutFooter = true;
 
                 geojsonLayer.eachLayer(function(layer) {
                     var option = document.createElement('option');
-                    option.value = layer.feature.properties.nama_pelaku_usaha ||
-                        layer.feature.properties.name;
-                    option.textContent = layer.feature.properties.nama_pelaku_usaha ||
-                        layer.feature.properties.name;
+                    option.value = layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name;
+                    option.textContent = layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name;
                     select.appendChild(option);
                 });
 
                 div.appendChild(label);
                 div.appendChild(select);
                 filterContent.appendChild(div);
+
             }
         }
 
@@ -771,11 +768,36 @@ $this->withoutFooter = true;
             var kepadatanPendudukLabel = properties.kepadatan_penduduk ? 'Kepadatan Penduduk :' : (properties.skala_usaha ? 'Skala Usaha :' : '');
             document.getElementById('kepadatan_penduduk').innerHTML = '<li class="link-dark rounded li-text">' + kepadatanPendudukLabel + '</li> <p>' + kepadatanPendudukText + '</p>';
 
+            if (properties.potensi_unggulan) {
+                var kehutananText = properties.potensi_unggulan.sektor_kehutanan ? properties.potensi_unggulan.sektor_kehutanan : '';
+                document.getElementById('kehutanan').innerHTML = '<li class="link-dark rounded li-text">Sektor Kehutanan :</li> <p>' + kehutananText + '</p>';
+
+                var pertanianText = properties.potensi_unggulan.sektor_pertanian ? properties.potensi_unggulan.sektor_pertanian : '';
+                document.getElementById('pertanian').innerHTML = '<li class="link-dark rounded li-text">Sektor Pertanian :</li> <p>' + pertanianText + '</p>';
+
+                var perkebunanText = properties.potensi_unggulan.sektor_perkebunan ? properties.potensi_unggulan.sektor_perkebunan : '';
+                document.getElementById('perkebunan').innerHTML = '<li class="link-dark rounded li-text">Sektor Perkebunan :</li> <p>' + perkebunanText + '</p>';
+
+                var perikananText = properties.potensi_unggulan.sektor_perikanan ? properties.potensi_unggulan.sektor_perikanan : '';
+                document.getElementById('perikanan').innerHTML = '<li class="link-dark rounded li-text">Sektor Perikanan :</li> <p>' + perikananText + '</p>';
+
+                var pertambanganText = properties.potensi_unggulan.sektor_pertambangan_dan_energi ? properties.potensi_unggulan.sektor_pertambangan_dan_energi : '';
+                document.getElementById('pertambangan').innerHTML = '<li class="link-dark rounded li-text">Sektor Pertambangan & Energi :</li> <p>' + pertambanganText + '</p>';
+
+                var industriText = properties.potensi_unggulan.sektor_industri ? properties.potensi_unggulan.sektor_industri : '';
+                document.getElementById('industri').innerHTML = '<li class="link-dark rounded li-text">Sektor Industri :</li> <p>' + industriText + '</p>';
+
+                var pariwisataText = properties.potensi_unggulan.sektor_pariwisata ? properties.potensi_unggulan.sektor_pariwisata : '';
+                document.getElementById('pariwisata').innerHTML = '<li class="link-dark rounded li-text">Sektor Pariwisata :</li> <p>' + pariwisataText + '</p>';
+
+                var peternakanText = properties.potensi_unggulan.sektor_peternakan ? properties.potensi_unggulan.sektor_peternakan : '';
+                document.getElementById('pariwisata').innerHTML = '<li class="link-dark rounded li-text">Sektor Peternakan :</li> <p>' + peternakanText + '</p>';
+            }
             $('#home-collapse').addClass('show');
         }
 
         function generateLegendContent(features) {
-            var legendDiv = document.getElementById('legend');
+            var legendDiv = document.getElementById('legend-container');
             var content = '<h8 class="p-1" style="font-weight: bold; color:black;">LEGENDA</h8>' +
                 '<div style="margin-top:0px; width:100%; border-bottom: 1px solid #b8b8b8; opacity:0.5"></div>';
 
@@ -933,14 +955,14 @@ $this->withoutFooter = true;
 
         document.getElementById('btnEdit').addEventListener('click', function() {
             if (drawnItems.getLayers().length > 0) {
-
                 drawnItems.eachLayer(function(layer) {
                     if (layer instanceof L.Marker) {
-
                         layer.dragging.enable();
                     } else if (layer instanceof L.Polyline || layer instanceof L.Polygon) {
-
                         layer.editing.enable();
+                        layer.on('edit', function() {
+                            layer.editing.disable();
+                        });
                     }
                 });
             }
@@ -999,9 +1021,9 @@ $this->withoutFooter = true;
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
-                        console.log('Server Response:', data);
                         if (data && data.status === true && data.data) {
                             data.data.forEach(function(item) {
+                                console.log('data item:', item);
                                 var latlng = [item.lat || item.latitude, item.lng || item.longitude];
                                 var iconColor;
                                 if (item.jnsppk === 'R') {
@@ -1029,7 +1051,6 @@ $this->withoutFooter = true;
                                     category: item.kategori || item.jnsppk,
                                     name: item.nmppk || item.nama,
                                 });
-                                console.log("Legend: " + legendData);
 
                                 if (latlng[0] !== undefined && latlng[1] !== undefined && (item.nmppk || item.nama)) {
                                     var marker = L.marker(latlng, {
@@ -1045,16 +1066,12 @@ $this->withoutFooter = true;
                                         "<b>" + label + "</b><br/>" + (item.nmjlnppk || item.alamat || "<label style='font-size:12px;'>" + item.deskripsi) + "</label><br/>";
 
                                     marker.bindPopup(contentPopup);
-                                } else {
-                                    console.error('Invalid Data Format:', item);
                                 }
                             });
                             $('#legend-container').addClass('active');
                             allLegendData = allLegendData.concat(legendData);
-                            addLegenda(allLegendData)
+                            addLegenda(allLegendData);
                             filterBaru(checkboxId);
-                        } else {
-                            console.error('Invalid API Response:', data);
                         }
                     },
                     error: function(xhr, status, error) {
@@ -1074,7 +1091,6 @@ $this->withoutFooter = true;
         }
 
         function filterBaru(checkboxId) {
-            console.log('nilai :', checkboxId);
             var filterContent = document.getElementById('filterContent');
             filterContent.innerHTML = '';
 
@@ -1158,9 +1174,8 @@ $this->withoutFooter = true;
 
 
         function addLegenda(legendData) {
-            console.log("Legend: ", legendData);
             var legendContent = '<h6>Legend</h6>';
-            legendContent += '<hr/ class="mt-0 mb-1">'; // Tambahkan garis horizontal di bawah h4
+            legendContent += '<hr/ class="mt-0 mb-1">';
             legendData.forEach(function(item) {
                 legendContent += '<div class="legend-item"><img class="color-box" src="' + getMarkerIconUrl(item.category) + '" /> ' + item.name + '</div>';
             });

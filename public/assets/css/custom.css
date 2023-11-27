@@ -313,8 +313,11 @@ border: 2px solid #3f78e0;
 .hidden {
 	display: none;
 }
-#sideRight:not(.sidebarHide){
+#sideRight:not(.sidebarHide),
+#legend-container:not(.sidebarHide)
+{
 	transform: translateX(0);
+	transition: transform 0.3s ease-in-out, right 0.3s ease-in-out;
 }
 
 .sidebarLeft {
@@ -335,8 +338,7 @@ border: 2px solid #3f78e0;
 }
 
 /* CSS to show the sidebar when the "sidebarHidden" class is not present */
-#sideLeft:not(.sidebarHidden),
-#legend:not(.sidebarHidden) {
+#sideLeft:not(.sidebarHidden) {
 	transform: translateX(0);
 }
 /* Define CSS styles for the coordinateHeader class */
@@ -482,7 +484,7 @@ border: 2px solid #3f78e0;
 	height: 18px;
 	display: inline-block;
 	border-radius: 0;
-	padding: 2px;
+	padding: 4px;
 }
 .legend::-webkit-scrollbar,
 #legend-container::-webkit-scrollbar {
@@ -578,4 +580,8 @@ border: 2px solid #3f78e0;
 }
 .shadows {
 	box-shadow: 20px 5px 5px rgba(0, 0, 0, 0.5);
+	}
+	.border-collapse{
+		border: 1px solid #ff0000;
+		border-radius: 3px;
 	}
