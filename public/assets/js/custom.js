@@ -303,7 +303,7 @@ function translate() {
     });
   }
 })(jQuery);
-const desa = '1701053144_729559541599fb663154.geojson';
+const desa = '1701136356_1e6dfd12591cfeb690b7.geojson';
 const district = '1700795680_dec10ba129769ab57fbf.geojson';
 const pkkpr21 = '1700022127_5275c3b3822ec2153e95.geojson';
 const pkkpr22 = '1700020276_987819ae172c12f67724.geojson';

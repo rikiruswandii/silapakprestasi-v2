@@ -257,6 +257,7 @@ $this->withoutFooter = true;
                                 <li id="pertambangan"></li>
                                 <li id="industri"></li>
                                 <li id="pariwisata"></li>
+                                <li id="kosong"></li>
                             </ul>
                         </div>
                     </li>
@@ -460,8 +461,8 @@ $this->withoutFooter = true;
                 var label2 = 'Kecamatan  :';
                 var label3 = 'Desa :';
                 popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">' + (feature.properties.kecamatan ? label2 : label3) + '</span></br>' + (feature.properties.kecamatan || feature.properties.name) + '</p>';
-                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Luas Wilayah : </span></br>' + (feature.properties.luas || feature.properties.luas === 'km²'?'belum ada data':'') + '</p>';
-                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Jarak ke Ibukota Kecamatan : </span></br>' + (feature.properties.jarak_ke_ibukota + 'km' || feature.properties.jarak_ke_ibukota_kecamatan === 'km' ? 'belum ada data' : '') + '</p>';
+                popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">Luas Wilayah : </span></br>' + (feature.properties.luas) + '</p>';
+                popupContent += '<p style="font-size:12px;"><span style="font-size:14px; font-weight:bold;">Jarak ke Ibukota Kecamatan: </span><br>' + ((feature.properties.jarak_ke_ibukota && feature.properties.jarak_ke_ibukota + ' km') || feature.properties.jarak_ke_ibukota_kecamatan) + '</p>';
             }
 
             if (feature.properties.nama_pelaku_usaha) {
@@ -575,10 +576,12 @@ $this->withoutFooter = true;
         var geojsonLayer;
 
         function enableLayer(filename, targetLayerID) {
+            $html.show();
             if (geojsonLayers[filename]) {
                 geojsonLayer = geojsonLayers[filename];
                 geojsonLayer.addTo(map);
                 updateFilterContentForLayer(filename);
+                $html.hide();
             } else {
                 var target = BASE_URL + "/uploads/geojson/" + filename;
                 fetch(target)
@@ -609,6 +612,9 @@ $this->withoutFooter = true;
                     })
                     .catch(error => {
                         console.error(error);
+                    })
+                    .finally(() => {
+                        $html.hide();
                     });
             }
         }
@@ -792,6 +798,10 @@ $this->withoutFooter = true;
 
                 var peternakanText = properties.potensi_unggulan.sektor_peternakan ? properties.potensi_unggulan.sektor_peternakan : '';
                 document.getElementById('pariwisata').innerHTML = '<li class="link-dark rounded li-text">Sektor Peternakan :</li> <p>' + peternakanText + '</p>';
+            } else {
+                document.getElementById('kosong').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-textarea-resize" viewBox="0 0 16 16">
+    <path d="M0 4.5A2.5 2.5 0 0 1 2.5 2h11A2.5 2.5 0 0 1 16 4.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 11.5v-7zM2.5 3A1.5 1.5 0 0 0 1 4.5v7A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 3h-11zm10.854 4.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708l3-3a.5.5 0 0 1 .708 0zm0 2.5a.5.5 0 0 1 0 .708l-.5.5a.5.5 0 0 1-.708-.708l.5-.5a.5.5 0 0 1 .708 0z"/>
+</svg>`;
             }
             $('#home-collapse').addClass('show');
         }
