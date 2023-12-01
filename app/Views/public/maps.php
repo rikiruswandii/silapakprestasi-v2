@@ -204,6 +204,18 @@ $this->withoutFooter = true;
                                             </label>
                                         </div>
                                     </li>
+
+                                    <?php foreach ($fasum as $index => $tipe) : ?>
+                                        <li class="btn-toggle-nav">
+                                            <div class="d-flex align-items-center custom-text-check form-check">
+                                                <input type="checkbox" class="form-check-input px-1" id="layer<?= $index ?>" value="<?= $tipe->file ?>" data-filename="<?= $tipe->file ?>">
+                                                <label class="form-check-label noselect link-dark rounded px-2">
+                                                    <?= $tipe->name ?>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
+
                                 </ul>
                             </div>
                         </div>
@@ -359,7 +371,8 @@ $this->withoutFooter = true;
             <div id="maps" style="height: 100vh;"></div>
 
         </div>
-        <div id="legend-container"></div>
+        <div id="legend-container" class="m-2"></div>
+        
     </div>
 
 </div>
@@ -407,14 +420,14 @@ $this->withoutFooter = true;
                 layer: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 20,
                     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-                }).addTo(map),
+                }),
                 icon: BASE_URL + '/assets/img/standar.jpg',
                 name: 'OSM'
             },
             {
                 layer: L.tileLayer('http://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                     maxZoom: 20
-                }),
+                }).addTo(map),
                 icon: BASE_URL + '/assets/img/Google.jpg',
                 name: 'Google'
             },
@@ -457,7 +470,7 @@ $this->withoutFooter = true;
                 popupContent += '<p>' + feature.properties?.description?.value || feature.properties?.name || "No description" + '</p>';
             }
 
-            if (feature.properties.jarak_ke_ibukota || feature.properties.jarak_ke_ibukota_kecamatan) {
+            if (feature.properties.jarak_ke_ibukota || feature.properties.jarak_ke_ibukota === 0 || feature.properties.jarak_ke_ibukota_kecamatan) {
                 var label2 = 'Kecamatan  :';
                 var label3 = 'Desa :';
                 popupContent += '<p style="font-size:12px"><span style="font-size:14px; font-weight:bold;">' + (feature.properties.kecamatan ? label2 : label3) + '</span></br>' + (feature.properties.kecamatan || feature.properties.name) + '</p>';
@@ -524,7 +537,27 @@ $this->withoutFooter = true;
             } else if (feature.geometry.type === "LineString") {
                 var popupContent = generatePopupContent(feature);
 
-                layer.bindPopup(popupContent);
+                layer.bindPopup(popupContent, {
+                    maxWidth: 300,
+                    maxHeight: 200
+                });
+
+                layer.on('popupopen', function() {
+                    var popup = map._popup;
+
+                    if (popup) {
+                        var container = popup._contentNode;
+                        container.style.resize = 'both';
+                        container.style.overflow = 'auto';
+                        container.style.maxWidth = 'none';
+                        container.style.maxHeight = 'none';
+
+                        L.DomEvent.on(container, 'mouseup', function() {
+                            map.closePopup();
+                            map.openPopup(popup);
+                        });
+                    }
+                });
 
                 layer.on('mouseover', function(e) {
                     this.setStyle({
@@ -554,13 +587,15 @@ $this->withoutFooter = true;
                 geojsonLayer = L.geoJSON(geojsonData, {
                     style: function(feature) {
                         return {
+                            fill: feature.properties.fill || 0,
+                            fillOpacity: feature.properties['fill-opacity'] || 0,
                             color: feature.properties.stroke,
                             weight: feature.properties['stroke-width'] || 1,
                             opacity: feature.properties['stroke-opacity'] || 1
                         };
                     },
                     onEachFeature: function(feature, layer) {
-                        var popupContent = generatePopupContent(feature);
+                        var popupContent = feature.properties.name || 'Kabupaten Purwakarta';
 
                         layer.bindPopup(popupContent);
                     }
@@ -607,8 +642,6 @@ $this->withoutFooter = true;
                         $('#legend-container').addClass('active');
                         geojsonLayer.addTo(map);
                         geojsonLayers[filename] = geojsonLayer;
-                        console.log("data :", geojsonData);
-                        console.log(filename);
                     })
                     .catch(error => {
                         console.error(error);
@@ -712,7 +745,6 @@ $this->withoutFooter = true;
                 var selectedLayers = [];
 
                 select.addEventListener('change', function() {
-                    var selectedOption = select.value;
 
                     if (selectedOption !== '') {
 
@@ -760,10 +792,10 @@ $this->withoutFooter = true;
             var properties = feature.properties;
             var icon = 'Belum ada data';
 
-            var kecamatanText = properties.kecamatan ? properties.kecamatan : (properties.lokasi_usaha ? properties.lokasi_usaha.kecamatan : icon);
+            var kecamatanText = properties.kecamatan ? properties.kecamatan : (properties.lokasi_usaha ? properties.lokasi_usaha.kecamatan : '');
             document.getElementById('kecamatan').innerHTML = '<li class="link-dark rounded li-text">Kecamatan :</li> <p>' + kecamatanText + '</p>';
 
-            var kelurahanText = properties.kelurahan ? properties.kelurahan : (properties.lokasi_usaha ? properties.lokasi_usaha.kelurahan : icon);
+            var kelurahanText = properties.kelurahan ? properties.kelurahan : (properties.lokasi_usaha ? properties.lokasi_usaha.kelurahan : properties.name);
             document.getElementById('kelurahan').innerHTML = '<li class="link-dark rounded li-text">Kelurahan :</li> <p>' + kelurahanText + '</p>';
 
             var populasiText = properties.populasi ? properties.populasi : (properties.status_penanaman_modal ? properties.status_penanaman_modal : '');
@@ -815,10 +847,13 @@ $this->withoutFooter = true;
 
             for (var i = 0; i < features.length; i++) {
                 var feature = features[i];
-
                 if (feature.properties && (feature.properties.fill || feature.properties.stroke)) {
-                    var layerName = feature.properties.name || feature.properties.nama || feature.properties.nama_pelaku_usaha || feature.properties.description.value;
-                    var fillColor = feature.properties.fill || feature.properties.stroke;
+                    var layerName = feature.properties.name || feature.properties.nama || feature.properties.nama_pelaku_usaha || getNamaRuasFromDescription(feature.properties.description.value);
+                    if (feature.properties.fill !== '#000000') {
+                        var fillColor = feature.properties.fill || feature.properties.stroke;
+                    } else {
+                        var fillColor = feature.properties.fill !== '#000000' || feature.properties.stroke;
+                    }
                     var layerType = feature.geometry.type;
 
                     if (!displayedTypes[layerType]) {
@@ -834,6 +869,11 @@ $this->withoutFooter = true;
             if (legendDiv) {
                 legendDiv.innerHTML = content;
             }
+        }
+
+        function getNamaRuasFromDescription(description) {
+            var regexResult = /<td>Nama_Ruas<\/td>\s*<td>(.*?)<\/td>/i.exec(description);
+            return regexResult ? regexResult[1] : '';
         }
 
         var drawnItems = new L.FeatureGroup();

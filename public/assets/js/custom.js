@@ -308,3 +308,5 @@ const district = '1700795680_dec10ba129769ab57fbf.geojson';
 const pkkpr21 = '1700022127_5275c3b3822ec2153e95.geojson';
 const pkkpr22 = '1700020276_987819ae172c12f67724.geojson';
 const pkkpr23 = '1699337880_4ffcdfe18b335a10da4b.geojson';
+const jalan = '1701306721_8e9dee6b5348d2e3170d.geojson';
+

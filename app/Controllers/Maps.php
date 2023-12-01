@@ -33,13 +33,21 @@ class Maps extends BaseController
         $geojson = $this->geojson->findAll();
 
         $filter = [];
-        array_map(function ($row) use (&$filter) {
-            $filter[$row->type][] = $row;
-        }, $geojson);
+        $fasum = [];
+
+        foreach ($geojson as $row) {
+            if ($row->type !== 'Fasilitas Umum') {
+                $filter[$row->type][] = $row;
+            } else {
+                $fasum[] = $row;
+            }
+        }
+
 
         $variable = [
             'page' => 'Peta Potensi & Peluang Investasi',
             'filter' => $filter,
+            'fasum' => $fasum,
             'geojson' => $geojson,
             'apiKey' => $apiKey,
             'apiKey1' => $apiKey1,
