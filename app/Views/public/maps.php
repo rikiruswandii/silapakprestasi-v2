@@ -1073,7 +1073,6 @@ $this->withoutFooter = true;
                     success: function(data) {
                         if (data && data.status === true && data.data) {
                             data.data.forEach(function(item) {
-                                console.log('data item:', item);
                                 var latlng = [item.lat || item.latitude, item.lng || item.longitude];
                                 var iconColor;
                                 if (item.jnsppk === 'R') {
