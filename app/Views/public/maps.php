@@ -372,7 +372,7 @@ $this->withoutFooter = true;
 
         </div>
         <div id="legend-container" class="m-2"></div>
-        
+
     </div>
 
 </div>
@@ -427,7 +427,7 @@ $this->withoutFooter = true;
             {
                 layer: L.tileLayer('http://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                     maxZoom: 20
-                }).addTo(map),
+                }),
                 icon: BASE_URL + '/assets/img/Google.jpg',
                 name: 'Google'
             },
@@ -448,7 +448,7 @@ $this->withoutFooter = true;
             {
                 layer: L.tileLayer('http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                     maxZoom: 20
-                }),
+                }).addTo(map),
                 icon: BASE_URL + '/assets/img/WI.jpg',
                 name: 'World Imagery'
             },
@@ -591,7 +591,7 @@ $this->withoutFooter = true;
                             fillOpacity: feature.properties['fill-opacity'] || 0,
                             color: feature.properties.stroke,
                             weight: feature.properties['stroke-width'] || 1,
-                            opacity: feature.properties['stroke-opacity'] || 1
+                            opacity: feature.properties['stroke-opacity'] || 0.5
                         };
                     },
                     onEachFeature: function(feature, layer) {
@@ -743,31 +743,35 @@ $this->withoutFooter = true;
                 select.appendChild(defaultOption);
 
                 var selectedLayers = [];
+                var selectedOptions = []; // Menambah array untuk menyimpan setiap pilihan yang dipilih
 
                 select.addEventListener('change', function() {
+                    // Menghapus semua layer yang ada di peta
+                    geojsonLayer.eachLayer(function(layer) {
+                        map.removeLayer(layer);
+                    });
 
+                    // Mengatur selectedOption ke nilai yang dipilih
+                    selectedOption = select.value;
+
+                    // Menambah layer yang sesuai dengan selectedOption
                     if (selectedOption !== '') {
-
                         geojsonLayer.eachLayer(function(layer) {
                             if (
                                 layer.feature.properties.nama_pelaku_usaha === selectedOption ||
                                 layer.feature.properties.name === selectedOption
                             ) {
                                 map.addLayer(layer);
-                                selectedLayers.push(layer);
-
-                                var bounds = layer.getBounds();
-                                map.fitBounds(bounds);
+                                selectedLayers.push(layer); // Menambahkan layer ke dalam array
+                                selectedOptions.push(selectedOption); // Menambahkan opsi yang dipilih ke dalam array
                             }
                         });
                     }
 
-                    geojsonLayer.eachLayer(function(layer) {
-                        if (!selectedLayers.includes(layer)) {
-                            map.removeLayer(layer);
-                        }
-                    });
+                    // Output array selectedOptions ke console (contoh)
+                    console.log(selectedOptions);
                 });
+
 
                 geojsonLayer.eachLayer(function(layer) {
                     var option = document.createElement('option');

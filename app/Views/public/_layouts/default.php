@@ -62,6 +62,14 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/plugins.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/custom.css') ?>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
     <?= $this->renderSection('headtag') ?>
 </head>
 
@@ -78,7 +86,7 @@
 
     <?= isset($this->withoutFooter) ? '' : $this->include('public/_includes/footer') ?>
     <?= $this->include('public/_includes/gotop') ?>
-            
+
     <script src="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="<?= base_url('assets/js/plugins.js') ?>"></script>
@@ -86,6 +94,8 @@
     <script src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="<?= base_url('assets/js/theme.js') ?>"></script>
     <script src="<?= base_url('assets/js/custom.js') ?>"></script>
+    
+    
     <?= $this->renderSection('lowerbody') ?>
 </body>
 

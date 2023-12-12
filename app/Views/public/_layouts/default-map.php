@@ -62,6 +62,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/plugins.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/custom.css') ?>">
+    
     <?= $this->renderSection('headtag') ?>
 </head>
 
