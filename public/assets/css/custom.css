@@ -655,3 +655,19 @@ border: 2px solid #3f78e0;
                 transform: translateY(-20px);
             }
         }
+		.custom-bg-transparent {
+			background-color: #343f52;
+      opacity: 0.8;
+    }
+	.bg-baru {
+		background: linear-gradient(to bottom left, #3f78e0 40%, #8ac5ff 100%);
+	}
+	.gradasi-warna {
+		background: linear-gradient(to bottom left, #272727 40%, #bac4d3 100%);
+	}
+	.gradient-text {
+            background: linear-gradient(to right, #3f78e0, #8ac5ff); /* Warna gradien horizontal */
+            -webkit-background-clip: text; /* Memastikan gradien hanya diterapkan pada teks, bukan latar belakang */
+            color: transparent; /* Membuat teks menjadi transparan */
+			
+        }

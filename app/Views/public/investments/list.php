@@ -57,7 +57,7 @@
             <div class="row gx-lg-8 gx-xl-12 gy-10 align-items-center justify-content-center">
                 <div class="col-lg-5">
                     <figure>
-                        <img class="w-auto" src="<?= base_url('assets/img/concept/concept18.png') ?>" srcset="<?= base_url('assets/img/concept/concept18@2x.png') ?> 2x" alt="" />
+                        <img class="w-auto" src="<?= base_url('assets/img/investments/investments18.png') ?>" srcset="<?= base_url('assets/img/investments/investments18@2x.png') ?> 2x" alt="" />
                     </figure>
                 </div>
                 <div class="col-md-10 offset-md-1 offset-lg-0 col-lg-5 text-center text-lg-start">

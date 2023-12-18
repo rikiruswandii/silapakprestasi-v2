@@ -14,7 +14,7 @@
     <div class="container pt-10 pb-12 pt-md-14 pb-md-16 text-center">
         <div class="row">
             <div class="col-md-7 col-lg-6 col-xl-5 mx-auto">
-                <h1 class="display-1 mb-3"><?= $page ?></h1>
+                <h1 class="display-1 mb-3 "><?= $page ?></h1>
                 <nav class="d-inline-block" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?= base_url() ?>">Utama</a></li>
@@ -57,7 +57,7 @@
             <div class="row gx-lg-8 gx-xl-12 gy-10 align-items-center justify-content-center">
                 <div class="col-lg-5">
                     <figure>
-                        <img class="w-auto" src="<?= base_url('assets/img/concept/concept18.png') ?>" srcset="<?= base_url('assets/img/concept/concept18@2x.png') ?> 2x" alt="" />
+                        <img class="w-auto" src="<?= base_url('assets/img/investments/investments18.png') ?>" srcset="<?= base_url('assets/img/investments/investments18@2x.png') ?> 2x" alt="" />
                     </figure>
                 </div>
                 <div class="col-md-10 offset-md-1 offset-lg-0 col-lg-5 text-center text-lg-start">

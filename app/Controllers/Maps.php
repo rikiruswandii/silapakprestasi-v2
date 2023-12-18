@@ -7,30 +7,34 @@ use App\Models\GeojsonModel;
 class Maps extends BaseController
 {
     private $geojson;
-    private $apiFaskes;
     private $apiWisata;
     private $apiHotel;
 
     public function __construct()
     {
         $this->geojson = new GeojsonModel();
-        $this->apiFaskes = new ApiFaskes();
-        $this->apiWisata = new ApiWisata();
-        $this->apiHotel = new ApiHotel();
+        $this->api = new Api();
     }
 
     public function index()
     {
-        $rumahsakitData = $this->apiFaskes->getHealthFacilityData('R');
-        $apotekData = $this->apiFaskes->getHealthFacilityData('A');
-        $apotekUtama = $this->apiFaskes->getHealthFacilityData('S');
-        $klinikData = $this->apiFaskes->getHealthFacilityData('B');
-        $puskesmasData = $this->apiFaskes->getHealthFacilityData('P');
-        $wisataData = $this->apiWisata->getTouristData();
-        $hotelData = $this->apiHotel->getHotelData();
+        $rumahsakitData = $this->api->getHealthFacilityData('R');
+        $apotekData = $this->api->getHealthFacilityData('A');
+        $apotekUtama = $this->api->getHealthFacilityData('S');
+        $klinikData = $this->api->getHealthFacilityData('B');
+        $puskesmasData = $this->api->getHealthFacilityData('P');
+        $wisataData = $this->api->getTouristData();
+        $hotelData = $this->api->getHotelData();
         $apiKey = env('API_KEY');
         $apiKey1 = env('API_KEY_1');
         $geojson = $this->geojson->findAll();
+            $gaboleh5 = 'A';
+            $gaboleh1 = 'B';
+            $gaboleh2 = 'R';        
+            $gaboleh3 = 'S';        
+            $gaboleh4 = 'P';
+            $gaboleh6 = 'maps/get_wisata';
+            $gaboleh7 = 'maps/get_hotel';
 
         $filter = [];
         $fasum = [];
@@ -58,19 +62,24 @@ class Maps extends BaseController
             'puskesmasData' => $puskesmasData,
             'wisataData' => $wisataData,
             'hotelData' => $hotelData,
+            'gaboleh1' => $gaboleh1,
+            'gaboleh2' => $gaboleh2,
+            'gaboleh3' => $gaboleh3,
+            'gaboleh4' => $gaboleh4,
+            'gaboleh5' => $gaboleh5,
+            'gaboleh6' => $gaboleh6,
+            'gaboleh7' => $gaboleh7,
         ];
         return $this->view('public/maps', $variable);
     }
 
     public function get_data($jenis)
     {
-        // Memastikan jenis yang valid (R, A, B, P)
         $validTypes = ['R', 'A', 'S', 'B', 'P'];
         if (!in_array($jenis, $validTypes)) {
             return $this->response->setJSON(['error' => 'Invalid type']);
         }
-        // Panggil metode yang ada di ApiFaskes
-        $data = $this->apiFaskes->getHealthFacilityData($jenis);
+        $data = $this->api->getHealthFacilityData($jenis);
 
         // Atur header respons sebagai JSON
         $this->response->setHeader('Content-Type', 'application/json');
@@ -81,7 +90,7 @@ class Maps extends BaseController
     public function get_wisata()
     {
         try {
-            $data = $this->apiWisata->getTouristData();
+            $data = $this->api->getTouristData();
             $this->response->setHeader('Content-Type', 'application/json');
             return $this->response->setJSON($data);
         } catch (\Exception $e) {
@@ -91,7 +100,7 @@ class Maps extends BaseController
     public function get_hotel()
     {
         try {
-            $data = $this->apiHotel->getHotelData();
+            $data = $this->api->getHotelData();
             $this->response->setHeader('Content-Type', 'application/json');
             return $this->response->setJSON($data);
         } catch (\Exception $e) {

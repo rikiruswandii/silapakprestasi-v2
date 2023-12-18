@@ -388,6 +388,7 @@ $this->withoutFooter = true;
 <script src="<?= base_url('assets/js/leaflet-measure-path.js') ?>"></script>
 <script src="<?= base_url('assets/js/leaflet.PopupMovable.js') ?>"></script>
 <script src="<?= base_url('assets/js/L.Control.HtmlLegend.js') ?>"></script>
+<script src="<?= base_url('assets/js/maps.js') ?>"></script>
 <script type="text/javascript">
     var $html = $('<div class="loading"><div class="uil-ring-css" style="transform: scale(0.79);"><div></div></div></div>');
     $('body').append($html);
@@ -577,8 +578,6 @@ $this->withoutFooter = true;
             }
         }
 
-
-
         var aw = BASE_URL + ('/uploads/geojson/pwk.geojson');
 
         fetch(aw)
@@ -742,33 +741,23 @@ $this->withoutFooter = true;
                 defaultOption.textContent = 'Select Filter';
                 select.appendChild(defaultOption);
 
+                
                 var selectedLayers = [];
-                var selectedOptions = []; // Menambah array untuk menyimpan setiap pilihan yang dipilih
-
                 select.addEventListener('change', function() {
-                    // Menghapus semua layer yang ada di peta
+                    
                     geojsonLayer.eachLayer(function(layer) {
                         map.removeLayer(layer);
                     });
 
-                    // Mengatur selectedOption ke nilai yang dipilih
-                    selectedOption = select.value;
+                    var selectedOption = select.value;
+                    geojsonLayer.eachLayer(function(layer) {
+                        if (layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name === selectedOption) {
+                            map.addLayer(layer);
+                        } else {
+                            map.removeLayer(layer);
+                        }
+                    });
 
-                    // Menambah layer yang sesuai dengan selectedOption
-                    if (selectedOption !== '') {
-                        geojsonLayer.eachLayer(function(layer) {
-                            if (
-                                layer.feature.properties.nama_pelaku_usaha === selectedOption ||
-                                layer.feature.properties.name === selectedOption
-                            ) {
-                                map.addLayer(layer);
-                                selectedLayers.push(layer); // Menambahkan layer ke dalam array
-                                selectedOptions.push(selectedOption); // Menambahkan opsi yang dipilih ke dalam array
-                            }
-                        });
-                    }
-
-                    // Output array selectedOptions ke console (contoh)
                     console.log(selectedOptions);
                 });
 
@@ -1038,14 +1027,14 @@ $this->withoutFooter = true;
             if (fasilitasChecked) {
                 $("#layerFaskes, #layerHotel").prop("checked", fasilitasChecked);
 
-                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/R'); ?>");
-                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/A'); ?>");
-                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/B'); ?>");
-                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/P'); ?>");
-                handleMarkerData("#layerHotel", "<?php echo base_url('maps/get_hotel'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh2); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh5); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh1); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh4); ?>");
+                handleMarkerData("#layerHotel", "<?php echo base_url($gaboleh7); ?>");
             } else if (potensiChecked) {
                 $("#layerWisata").prop("checked", potensiChecked);
-                handleMarkerData("#layerWisata", "<?php echo base_url('maps/get_wisata'); ?>");
+                handleMarkerData("#layerWisata", "<?php echo base_url($gaboleh6); ?>");
 
             }
 
@@ -1056,12 +1045,12 @@ $this->withoutFooter = true;
 
         $(document).on("change", "[id^='layerFaskes'], [id^='layerWisata'], [id^='layerHotel']", function() {
             <?php if (isset($rumahsakitData, $apotekData, $klinikData, $puskesmasData, $wisataData, $hotelData)) : ?>
-                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/R'); ?>");
-                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/A'); ?>");
-                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/B'); ?>");
-                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/P'); ?>");
-                handleMarkerData("#layerWisata", "<?php echo base_url('maps/get_wisata'); ?>");
-                handleMarkerData("#layerHotel", "<?php echo base_url('maps/get_hotel'); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh2); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh5); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh1); ?>");
+                handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh4); ?>");
+                handleMarkerData("#layerWisata", "<?php echo base_url($gaboleh6); ?>");
+                handleMarkerData("#layerHotel", "<?php echo base_url($gaboleh7); ?>");
             <?php endif; ?>
         });
         var allLegendData = [];
@@ -1208,10 +1197,10 @@ $this->withoutFooter = true;
             if ($("#layerFaskes").prop("checked")) {
                 <?php if (isset($rumahsakitData, $apotekData, $klinikData, $puskesmasData, $wisataData, $hotelData)) : ?>
                     if (selectedOption === "All") {
-                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/R'); ?>");
-                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/A'); ?>");
-                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/B'); ?>");
-                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/P'); ?>");
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh2); ?>");
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh5); ?>");
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh1); ?>");
+                        handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/' . $gaboleh4); ?>");
                     } else {
                         handleMarkerData("#layerFaskes", "<?php echo base_url('maps/get_data/'); ?>/" + selectedOption);
                     }

@@ -36,8 +36,7 @@ $routes->setAutoRoute(false);
 $routes->get('/', 'Home::index');
 $routes->get('contact-us', 'Home::contact');
 $routes->get('about', 'Home::about');
-//convert kml
-// Routes for maps
+$routes->get('chart-investments', 'ChartInvestments::index');
 
 // Search KMZ
 $routes->group('maps', function ($routes) {

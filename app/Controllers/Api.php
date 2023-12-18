@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\KmzModel;
 use App\Models\ContactsModel;
 use App\Models\SubscriptionsModel;
+use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\Response;
 
 class Api extends BaseController
 {
@@ -176,5 +178,84 @@ class Api extends BaseController
         }
 
         return $this->__response(200, true, 'Monggo dipake sesuai kebutuhan mawon!', $data);
+    }
+
+    public function getHealthFacilityData($jenis)
+    {
+        $kabupaten = "0130";
+        $key = "developerganteng";
+        $url = "https://api.teknowebapp.com/indonesian/health/aplicares/search?kabupaten=$kabupaten&key=$key&jenis=$jenis";
+
+        // Gunakan HTTP client CodeIgniter
+        $client = \Config\Services::curlrequest();
+        $response = $client->request('GET', $url);
+
+        // Cek apakah request berhasil atau tidak
+        if ($response->getStatusCode() === 200) {
+            // Parsing JSON
+            $result = json_decode($response->getBody(), true);
+
+            // Cek apakah parsing JSON berhasil
+            if ($result === null) {
+                return ['error' => 'Error parsing JSON response'];
+            }
+
+            return $result;
+        } else {
+            // Tangani kesalahan HTTP
+            return ['error' => 'HTTP request failed: ' . $response->getStatusCode()];
+        }
+    }
+    public function getHotelData()
+    {
+        $key = "developerganteng";
+        $url = "https://api.teknowebapp.com/indonesian/tourism/sipinterberisi/hotel?key=$key";
+
+        // Gunakan HTTP client CodeIgniter
+        $client = \Config\Services::curlrequest();
+        $response = $client->get($url);
+
+        // Cek apakah request berhasil atau tidak
+        if ($response->getStatusCode() === 200) {
+            // Parsing JSON
+            $result = json_decode($response->getBody(), true);
+
+            // Cek apakah parsing JSON berhasil
+            if ($result === null) {
+                // Tambahkan informasi kesalahan parsing JSON
+                return ['error' => 'Error parsing JSON response', 'response' => $response->getBody()];
+            }
+
+            return $result;
+        } else {
+            // Tangani kesalahan HTTP dengan memberikan pesan error
+            return ['error' => 'HTTP request failed: ' . $response->getStatusCode()];
+        }
+    }
+    public function getTouristData()
+    {
+        $key = "developerganteng";
+        $url = "https://api.teknowebapp.com/indonesian/tourism/sipinterberisi/wisata?key=$key";
+
+        // Gunakan HTTP client CodeIgniter
+        $client = \Config\Services::curlrequest();
+        $response = $client->get($url);
+
+        // Cek apakah request berhasil atau tidak
+        if ($response->getStatusCode() === 200) {
+            // Parsing JSON
+            $result = json_decode($response->getBody(), true);
+
+            // Cek apakah parsing JSON berhasil
+            if ($result === null) {
+                // Tambahkan informasi kesalahan parsing JSON
+                return ['error' => 'Error parsing JSON response', 'response' => $response->getBody()];
+            }
+
+            return $result;
+        } else {
+            // Tangani kesalahan HTTP dengan memberikan pesan error
+            return ['error' => 'HTTP request failed: ' . $response->getStatusCode()];
+        }
     }
 }
