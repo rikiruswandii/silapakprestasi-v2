@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 var series = chart.series.push(new am4charts.PieSeries());
                 series.dataFields.value = "sectorsCount";
-                series.dataFields.category = "sector"; // Change 'sector' to 'category'
+                series.dataFields.category = "sector"; 
                 series.slices.template.cornerRadius = 10;
                 series.slices.template.innerCornerRadius = 7;
                 series.slices.template.draggable = true;
