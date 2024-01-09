@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries())
 
-    fetch('http://localhost:8080/chart-investments')
+    fetch('chart-investments')
         .then(response => response.json())
         .then(data => {
             if (data && data.chartData && data.chartData.length > 0) {
