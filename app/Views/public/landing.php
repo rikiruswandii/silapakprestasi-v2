@@ -327,10 +327,128 @@
         </div>
     </div>
 </section>
+<?= $this->endSection() ?>
+
+<?= $this->section('lowerbody') ?>
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/plugins/forceDirected.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-<script src="<?= base_url('assets/js/chartBalon.js') ?>"></script>
-<script src="<?= base_url('assets/js/chartMeter.js') ?>"></script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+
+
+        am4core.useTheme(am4themes_animated);
+        var chart = am4core.create("chartdiv", am4charts.PieChart);
+        chart.hiddenState.properties.opacity = 0;
+
+        fetch('chart-investments')
+            .then(response => response.json())
+            .then(data => {
+
+                if (data && data.chartData && data.chartData.length > 0) {
+
+                    chart.data = data.chartData;
+
+                    chart.radius = am4core.percent(70);
+                    chart.innerRadius = am4core.percent(40);
+                    chart.startAngle = 180;
+                    chart.endAngle = 360;
+
+                    var series = chart.series.push(new am4charts.PieSeries());
+                    series.dataFields.value = "sectorsCount";
+                    series.dataFields.category = "sector";
+                    series.slices.template.cornerRadius = 10;
+                    series.slices.template.innerCornerRadius = 7;
+                    series.slices.template.draggable = true;
+                    series.slices.template.inert = true;
+
+                    var legend = new am4charts.Legend();
+                    chart.legend = legend;
+
+                    legend.align = "center";
+                    legend.width = am4core.percent(80);
+
+                    series.hiddenState.properties.startAngle = 90;
+                    series.hiddenState.properties.endAngle = 90;
+
+                    chart.invalidateData();
+                    chart.validateData();
+                } else {
+                    console.error('Invalid or empty data:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    });
+</script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+
+        am4core.useTheme(am4themes_animated);
+
+        var chart = am4core.create("chart-div", am4plugins_forceDirected.ForceDirectedTree);
+
+        var networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries());
+
+        fetch('chart-investments')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.chartData && data.chartData.length > 0) {
+
+                    chart = data.chartData;
+                    chartLagi = data.chartInnov
+                    investment = data.invest;
+                    investmentCount = data.investmentsCount;
+                    innovations = data.innov;
+                    innovationsCount = data.innovationsCount;
+
+                    networkSeries.data = [{
+                        name: investment,
+                        value: ' (' + investmentCount + ')',
+                        fixed: false,
+                        x: am4core.percent(50),
+                        y: am4core.percent(50),
+                        children: chart.map(function(val) {
+                            return {
+                                name: val.sector,
+                                value: ' (' + val.sectorsCount + ')',
+                                children: val.sectorsIdCount.map(function(idCount) {
+                                    return {
+                                        name: idCount.id + ' : ' + idCount.idsector
+                                    };
+                                })
+                            };
+                        })
+                    }];
+
+                    networkSeries.dataFields.linkWith = "linkWith";
+                    networkSeries.dataFields.name = "name";
+                    networkSeries.dataFields.id = "name";
+                    networkSeries.dataFields.value = "value";
+                    networkSeries.dataFields.children = "children";
+                    networkSeries.dataFields.fixed = "fixed";
+
+                    networkSeries.nodes.template.propertyFields.x = "x";
+                    networkSeries.nodes.template.propertyFields.y = "y";
+
+                    networkSeries.nodes.template.tooltipText = "{name} {value}" ? "{name} {value}" : "{name}";
+                    networkSeries.nodes.template.fillOpacity = 1;
+
+                    networkSeries.nodes.template.label.text = "{name}";
+                    networkSeries.fontSize = 10;
+                    networkSeries.maxLevels = 3;
+                    networkSeries.nodes.template.label.hideOversized = true;
+                    networkSeries.nodes.template.label.truncate = true;
+                } else {
+                    console.error('Invalid or empty data:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    });
+</script>
+
 <?= $this->endSection() ?>
