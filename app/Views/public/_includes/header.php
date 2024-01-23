@@ -3,7 +3,7 @@
         <div class="container flex-lg-row flex-nowrap align-items-center">
             <div class="navbar-brand w-100">
                 <a href="<?= base_url() ?>">
-                    <img src="<?= base_url('assets/img/logo.png') ?>" srcset="<?= base_url('assets/img/logo@2x.png') ?> 2x" alt="<?= $settings->app_title ?>" />
+                    <img src="<?= base_url('assets/img/logo-investasi-purwakarta (1).png') ?>" srcset="<?= base_url('assets/img/logo-investasi-purwakarta (1).png') ?> 2x" alt="<?= $settings->app_title ?>" /> <span class="gradient-text-1"><b>Purwakarta</b></span>
                 </a>
             </div>
 

@@ -5,7 +5,7 @@
     <div class="container-tight py-4">
         <div class="text-center mb-4">
             <a href="<?= base_url() ?>">
-                <img src="<?= base_url('assets/img/logo@2x.png') ?>" height="36" alt="<?= $settings->app_title ?>">
+                <img src="<?= base_url('assets/img/logo-investasi-purwakarta.png') ?>" height="158px" alt="<?= $settings->app_title ?>">
             </a>
         </div>
 

@@ -397,12 +397,13 @@
             .then(data => {
                 if (data && data.chartData && data.chartData.length > 0) {
 
-                    chart = data.chartData;
-                    chartLagi = data.chartInnov
-                    investment = data.invest;
-                    investmentCount = data.investmentsCount;
-                    innovations = data.innov;
-                    innovationsCount = data.innovationsCount;
+                    var chartData = data.chartData;
+
+                    var chartLagi = data.chartInnov;
+                    var investment = data.invest;
+                    var investmentCount = data.investmentsCount;
+                    var innovations = data.innov;
+                    var innovationsCount = data.innovationsCount;
 
                     networkSeries.data = [{
                         name: investment,
@@ -410,7 +411,7 @@
                         fixed: false,
                         x: am4core.percent(50),
                         y: am4core.percent(50),
-                        children: chart.map(function(val) {
+                        children: chartData.map(function(val) {
                             return {
                                 name: val.sector,
                                 value: ' (' + val.sectorsCount + ')',
@@ -448,7 +449,8 @@
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    });
+
+    }); // Tambahkan tanda titik koma di sini
 </script>
 
 <?= $this->endSection() ?>
