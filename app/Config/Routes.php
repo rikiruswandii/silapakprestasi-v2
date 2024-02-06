@@ -139,6 +139,18 @@ $routes->group('panel', ['filter' => 'auth'], static function (RouteCollection $
         $routes->post('update/(:num)', 'App\News::update/$1');
         $routes->post('delete/(:num)', 'App\News::delete/$1');
     });
+    
+    //sliders
+    $routes->group('sliders', static function (RouteCollection $routes) {
+        $routes->get('/', 'App\Sliders::index');
+        $routes->get('datatable', 'App\Sliders::datatable');
+        $routes->get('add', 'App\Sliders::add');
+        $routes->get('edit/(:hash)', 'App\Sliders::edit/$1');
+
+        $routes->post('insert', 'App\Sliders::insert');
+        $routes->post('update/(:num)', 'App\Sliders::update/$1');
+        $routes->post('delete/(:num)', 'App\Sliders::delete/$1');
+    });
 
     // $routes->group('kmz', static function (RouteCollection $routes) {
     //     $routes->get('/', 'App\Kmz::index');

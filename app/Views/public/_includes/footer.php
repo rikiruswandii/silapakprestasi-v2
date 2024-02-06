@@ -3,7 +3,7 @@
         <div class="row gy-6 gy-lg-0">
             <div class="col-md-4 col-lg-3">
                 <div class="widget">
-                    <img class="mb-4" src="<?= base_url('assets/img/logo-light.png') ?>" srcset="<?= base_url('assets/img/logo-light@2x.png') ?> 2x" alt="<?= $settings->app_title ?>" />
+                    <img class="mb-4" src="<?= base_url('assets/img/logo-investasi-purwakarta (1).png') ?>" srcset="<?= base_url('logo-investasi-purwakarta (1).png') ?> 2x" alt="<?= $settings->app_title ?>" />
                     <p class="mb-4">
                         &copy; <?= date('Y') ?> <?= $settings->app_name ?>.
                         <br class="d-none d-lg-block" />

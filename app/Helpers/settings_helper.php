@@ -123,6 +123,12 @@ function sidebars()
                     'url' => '/news',
                     'permission' => ['1'],
                     'active' => ''
+                ],
+                [
+                    'name' => 'Sliders',
+                    'url' => '/sliders',
+                    'permission' => ['1'],
+                    'active' => ''
                 ]
             ],
             'active' => ''

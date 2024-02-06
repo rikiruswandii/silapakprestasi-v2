@@ -23,23 +23,61 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<section class="wrapper bg-gradient-primary">
-    <div class="container pt-10 pt-md-14 pb-8 text-center">
-        <div class="row gx-lg-8 gx-xl-12 gy-10 align-items-center">
-            <div class="col-lg-7">
-                <figure>
-                    <img class="w-auto" src="<?= base_url('assets/img/concept/mpp.png') ?>" />
-                </figure>
-            </div>
+<?php
+if (count($sliders) > 0) {
+    echo '<section class="wrapper slider-container">';
+    echo '<div class="slider">';
 
-            <div class="col-md-10 offset-md-1 offset-lg-0 col-lg-5 text-center text-lg-start">
-                <h1 class="display-1 mb-5 mx-md-n5 mx-lg-0 gradient-text"><?= $settings->app_header ?></h1>
-                <p class="lead fs-lg mb-7"><?= $settings->app_tagline ?></p>
-                <span><a href="#what-we-do" class="btn btn-primary rounded-pill me-2 scroll">Selengkapnya</a></span>
-            </div>
-        </div>
-    </div>
-</section>
+    foreach ($sliders as $slider) {
+        if (is_object($slider) && property_exists($slider, 'images')) {
+            echo '<div class="slide active">';
+            echo '<img src="' . base_url('uploads/thumbnails/' . $slider->images) . '" alt="Selamat Datang">';
+            echo '<div class="text right-bubble mt-2 mb-2">';
+
+            // if (property_exists($slider, 'title')) {
+            //     echo '<h1 class="display-1 mb-5 mx-md-n5 mx-lg-0 gradient-text">' . $slider->title . '</h1>';
+            // }
+
+            // if (property_exists($slider, 'content')) {
+            //     echo '<p class="lead fs-lg mb-7">' . $slider->content . '</p>';
+            // }
+
+            echo '</div>';
+            echo '</div>';
+        }
+    }
+
+    echo '</div>';
+    echo '<a class="prev" onclick="changeSlide(-1)">❮</a>';
+    echo '<a class="next" onclick="changeSlide(1)">❯</a>';
+    echo '</section>';
+} else {
+    echo '<section class="wrapper bg-gradient-primary">';
+    echo '<div class="container pt-10 pt-md-14 pb-8 text-center">';
+    echo '<div class="row gx-lg-8 gx-xl-12 gy-10 align-items-center">';
+    echo '<div class="col-lg-7">';
+    echo '<figure><img class="w-auto" src="' . base_url('assets/img/concept/mpp.png') . '" /></figure>';
+    echo '</div>';
+
+    echo '<div class="col-md-10 offset-md-1 offset-lg-0 col-lg-5 text-center text-lg-start">';
+    echo '<h1 class="display-1 mb-5 mx-md-n5 mx-lg-0 gradient-text">' . $settings->app_header . '</h1>';
+    echo '<p class="lead fs-lg mb-7">' . $settings->app_tagline . '</p>';
+    echo '<span><a href="#what-we-do" class="btn btn-primary rounded-pill me-2 scroll">Selengkapnya</a></span>';
+    echo '</div>';
+
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</section>';
+}?>
+
+
+
+
+
+
+
+
 
 <section class="wrapper bg-light" id="what-we-do">
     <div class="container pt-14 pt-md-16">
@@ -397,12 +435,13 @@
             .then(data => {
                 if (data && data.chartData && data.chartData.length > 0) {
 
-                    chart = data.chartData;
-                    chartLagi = data.chartInnov
-                    investment = data.invest;
-                    investmentCount = data.investmentsCount;
-                    innovations = data.innov;
-                    innovationsCount = data.innovationsCount;
+                    var chartData = data.chartData;
+
+                    var chartLagi = data.chartInnov;
+                    var investment = data.invest;
+                    var investmentCount = data.investmentsCount;
+                    var innovations = data.innov;
+                    var innovationsCount = data.innovationsCount;
 
                     networkSeries.data = [{
                         name: investment,
@@ -410,7 +449,7 @@
                         fixed: false,
                         x: am4core.percent(50),
                         y: am4core.percent(50),
-                        children: chart.map(function(val) {
+                        children: chartData.map(function(val) {
                             return {
                                 name: val.sector,
                                 value: ' (' + val.sectorsCount + ')',
@@ -448,7 +487,51 @@
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
+
+    }); // Tambahkan tanda titik koma di sini
+</script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        let currentIndex = 0;
+
+        window.changeSlide = function(direction) {
+            const slides = document.querySelectorAll('.slide');
+            currentIndex += direction;
+
+            if (currentIndex < 0) {
+                currentIndex = slides.length - 1;
+            } else if (currentIndex >= slides.length) {
+                currentIndex = 0;
+            }
+
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slides = document.querySelectorAll('.slide');
+            const slider = document.querySelector('.slider');
+            const newTransformValue = -currentIndex * 100 + '%';
+
+            slider.style.transition = 'transform 0.5s ease-in-out';
+            slider.style.transform = 'translateX(' + newTransformValue + ')';
+
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentIndex) {
+                    slide.classList.add('active');
+                }
+            });
+
+            setTimeout(() => {
+                slider.style.transition = '';
+            }, 500);
+        }
+
+        setInterval(function() {
+            changeSlide(1);
+        }, 5000);
     });
 </script>
+
 
 <?= $this->endSection() ?>
