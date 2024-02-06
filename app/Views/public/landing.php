@@ -435,13 +435,12 @@ if (count($sliders) > 0) {
             .then(data => {
                 if (data && data.chartData && data.chartData.length > 0) {
 
-                    var chartData = data.chartData;
-
-                    var chartLagi = data.chartInnov;
-                    var investment = data.invest;
-                    var investmentCount = data.investmentsCount;
-                    var innovations = data.innov;
-                    var innovationsCount = data.innovationsCount;
+                     var chartDataData = data.chartData;
+                     var chartLagi = data.chartInnov;
+                     var investment = data.invest;
+                     var investmentCount = data.investmentsCount;
+                     var innovations = data.innov;
+                     var innovationsCount = data.innovationsCount;
 
                     networkSeries.data = [{
                         name: investment,

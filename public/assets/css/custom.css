@@ -666,12 +666,20 @@ h2 {
   -webkit-background-clip: text; /* Memastikan gradien hanya diterapkan pada teks, bukan latar belakang */
   color: transparent; /* Membuat teks menjadi transparan */
 }
+
 	.gradient-text-1 {
             background: linear-gradient(to right, #343f52, #7385a6); /* Warna gradien horizontal */
             -webkit-background-clip: text; /* Memastikan gradien hanya diterapkan pada teks, bukan latar belakang */
             color: transparent; /* Membuat teks menjadi transparan */
 			
         }
+	.gradient-text-1 {
+            background: linear-gradient(to right, #343f52, #7385a6); /* Warna gradien horizontal */
+            -webkit-background-clip: text; /* Memastikan gradien hanya diterapkan pada teks, bukan latar belakang */
+            color: transparent; /* Membuat teks menjadi transparan */
+			
+        }
+
 .slider-container {
   width: 100%;
 }

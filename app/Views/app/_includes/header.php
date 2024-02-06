@@ -6,7 +6,7 @@
 
         <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href="<?= base_url($settings->app_prefix . '/overview') ?>">
-                <img src="<?= base_url('assets/img/logo@2x.png') ?>" width="110" height="32" alt="<?= $settings->app_title ?>" class="navbar-brand-image">
+                <img src="<?= base_url('assets/img/logo-investasi-purwakarta (x2).png') ?>" width="158" height="50" alt="<?= $settings->app_title ?>" class="navbar-brand-image">
             </a>
         </h1>
 
