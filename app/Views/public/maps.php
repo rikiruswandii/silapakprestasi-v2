@@ -631,7 +631,7 @@ $this->withoutFooter = true;
                 fetch(target)
                     .then(response => response.json())
                     .then(geojsonData => {
-                        
+                        console.log('data :', geojsonData);
                         geojsonLayer = L.geoJSON(geojsonData, {
                             style: function(feature) {
                                 var garis = 'white';
@@ -1172,8 +1172,8 @@ $this->withoutFooter = true;
 
                                     var label = (item.nmjlnppk || item.alamat) ? label1 : label2;
 
-                                    var contentPopup = "<b>Nama : </b><br/>" + (item.nmppk || item.nama) + "<br/>" +
-                                        "<b>" + label + "</b><br/>" + (item.nmjlnppk || item.alamat || "<label style='font-size:12px;'>" + item.deskripsi) + "</label><br/>";
+                                    var contentPopup = '<div class="flex-col justify-content-center align-items-left"><b class="fs-14">Nama : </b> <p class="fs-10">' + (item.nmppk || item.nama) + '</p>' +
+                                        '<b class="fs-14">' + label + '</b><p class="fs-10">' + (item.nmjlnppk || item.alamat || item.deskripsi) + '</p></div>';
 
                                     marker.bindPopup(contentPopup);
                                 }
@@ -1284,10 +1284,13 @@ $this->withoutFooter = true;
 
 
         function addLegenda(legendData) {
-            var legendContent = '<h6>Legend</h6>';
-            legendContent += '<hr/ class="mt-0 mb-1">';
+            var legendContent = '<h6 class="p-1 mb-0">Legend</h6>';
+            legendContent += '<hr/ class="mt-0 mb-1 mx-2">';
             legendData.forEach(function(item) {
-                legendContent += '<div class="legend-item"><img class="color-box" src="' + getMarkerIconUrl(item.category) + '" /> ' + item.name + '</div>';
+                legendContent += '<div class="flex align-items-left m-1">';
+                legendContent += '<img class="color-box" src="' + getMarkerIconUrl(item.category) + '" style="width: 16px; height: 16px; object-fit: contain;" />';
+                legendContent += '<label class="text-wrap fs-8">' + item.name + '</label>';
+                legendContent += '</div>';
             });
 
             $('#legend-container').html(legendContent);
