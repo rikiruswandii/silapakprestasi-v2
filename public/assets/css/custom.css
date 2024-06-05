@@ -755,3 +755,21 @@ h2 {
 .active {
   opacity: 1;
 }
+
+.link-login {
+    transition: font-weight 0.3s ease; /* Menambahkan transisi */
+}
+
+.link-login:hover {
+    font-weight: bold;
+    animation: btn-login 1ms ease-in-out;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.5em 0.5em;
+}
+
+@keyframes btn-login {
+  to {
+    transform: translateY(-50%)
+  }
+}
