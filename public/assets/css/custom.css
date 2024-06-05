@@ -1,273 +1,268 @@
 figure + p {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 div.loading {
-	z-index: 99999999;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(16, 16, 16, 0.5);
+  z-index: 99999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(16, 16, 16, 0.5);
 }
 
 @-webkit-keyframes uil-ring-anim {
-	0% {
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+  100% {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-webkit-keyframes uil-ring-anim {
-	0% {
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+  100% {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-moz-keyframes uil-ring-anim {
-	0% {
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+  100% {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-ms-keyframes uil-ring-anim {
-	0% {
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+  100% {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-moz-keyframes uil-ring-anim {
-	0% {
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+  100% {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-webkit-keyframes uil-ring-anim {
-	0% {
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+  100% {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-o-keyframes uil-ring-anim {
-	0% {
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+  100% {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes uil-ring-anim {
-	0% {
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+  100% {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 .uil-ring-css {
-	margin: auto;
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	width: 200px;
-	height: 200px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
 }
 
 .uil-ring-css > div {
-	position: absolute;
-	display: block;
-	width: 160px;
-	height: 160px;
-	top: 20px;
-	left: 20px;
-	border-radius: 80px;
-	box-shadow: 0 6px 0 0 #ffffff;
-	-ms-animation: uil-ring-anim 1s linear infinite;
-	-moz-animation: uil-ring-anim 1s linear infinite;
-	-webkit-animation: uil-ring-anim 1s linear infinite;
-	-o-animation: uil-ring-anim 1s linear infinite;
-	animation: uil-ring-anim 1s linear infinite;
+  position: absolute;
+  display: block;
+  width: 160px;
+  height: 160px;
+  top: 20px;
+  left: 20px;
+  border-radius: 80px;
+  box-shadow: 0 6px 0 0 #ffffff;
+  -ms-animation: uil-ring-anim 1s linear infinite;
+  -moz-animation: uil-ring-anim 1s linear infinite;
+  -webkit-animation: uil-ring-anim 1s linear infinite;
+  -o-animation: uil-ring-anim 1s linear infinite;
+  animation: uil-ring-anim 1s linear infinite;
 }
 
 .map.map-full {
-	position: relative;
+  position: relative;
 }
 
 .district-filter {
-	padding: 10px;
-	position: absolute;
-	z-index: 1;
-	width: 100%;
-	display:flex;
-	justify-content:center;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-
 .district-filter .wrapper {
-	width: 150px;
-	
+  width: 150px;
 }
 
 .district-filter select {
-	padding: 8px 12px;
-	background-position: right 12px center;
-	border-radius: 2px;
-	box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
-	
+  padding: 8px 12px;
+  background-position: right 12px center;
+  border-radius: 2px;
+  box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
 }
 .select-trans {
-	opacity: 0.7;
+  opacity: 0.7;
 }
 .select-opacity {
-	gap:3px;
+  gap: 3px;
 }
 .search-location {
-	padding: 15px;
-	position:relative;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	
+  padding: 15px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .logo-silapak {
-	padding: 20px;
-	margin-bottom: 20px;
-	position: relative;
-	width: 100%;
-	display: flex;
-	justify-content: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .menu {
-	width: 100%;
-height: 47px;
-
+  width: 100%;
+  height: 47px;
 }
 .menu-item {
-	margin: 0;
-	width:100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 .menu-item.active {
-	border-bottom: 2px solid #3f78e0;
+  border-bottom: 2px solid #3f78e0;
 }
 .menu-item {
-	text-decoration: none;
+  text-decoration: none;
 }
 .icon {
-	width: 16px;
-	height: 16px;
-	margin-right: 5px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
 }
 .content {
-	display: none;
-	background-color: white;
-	height:93vh;
-	overflow-y: auto;
+  display: none;
+  background-color: white;
+  height: 93vh;
+  overflow-y: auto;
 }
 .rightContent {
-	height: 93vh;
-	overflow-x: auto;
+  height: 93vh;
+  overflow-x: auto;
 }
 
 h2 {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .marker-button:hover,
@@ -277,244 +272,242 @@ h2 {
 .delete-button:hover,
 .cari-button:hover,
 .menu-item-1:hover,
-.menu-item-2:hover, 
+.menu-item-2:hover,
 .tggl-button:hover {
-	background-color: aliceblue;
-	/* Ganti warna latar belakang saat dihover */
-	color: #60697b;
-	/* Ganti warna teks saat dihover */
-	cursor: pointer;
-	/* Ubah kursor mouse menjadi tangan saat dihover */
+  background-color: aliceblue;
+  /* Ganti warna latar belakang saat dihover */
+  color: #60697b;
+  /* Ganti warna teks saat dihover */
+  cursor: pointer;
+  /* Ubah kursor mouse menjadi tangan saat dihover */
 }
 .form-check-input:hover {
-background-color: #ffffff ;
-border: 2px solid #3f78e0;
+  background-color: #ffffff;
+  border: 2px solid #3f78e0;
 }
 .form-check-input {
-	border: 2px solid #60697b;
+  border: 2px solid #60697b;
 }
 /* Sidebar Right Container */
 .sidebarRight {
-	
-	border-left: 1px solid #e3e3e3;
-	width: 250px;
-	position: absolute;
-	display: initial;
-	justify-content: right;
-	z-index: 1001;
-	height: 100vh;
+  border-left: 1px solid #e3e3e3;
+  width: 250px;
+  position: absolute;
+  display: initial;
+  justify-content: right;
+  z-index: 1001;
+  height: 100vh;
 }
 
 #sideRight {
-	display: none;
-	transform: translateX(100%);
-	transition: transform 0.3s ease-in-out;
+  display: none;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
 }
 .hidden {
-	display: none;
+  display: none;
 }
 #sideRight:not(.sidebarHide),
-#legend-container:not(.sidebarHide)
-{
-	transform: translateX(0);
-	transition: transform 0.3s ease-in-out, right 0.3s ease-in-out;
+#legend-container:not(.sidebarHide) {
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out, right 0.3s ease-in-out;
 }
 
 .sidebarLeft {
-	transition: .3s;
-		border-right: 1px solid #e3e3e3;
-		width: 280px;
-		position: absolute;
-		display:initial;
-		justify-content: left;
-		z-index: 1001;
-		height: 100vh;
+  transition: 0.3s;
+  border-right: 1px solid #e3e3e3;
+  width: 280px;
+  position: absolute;
+  display: initial;
+  justify-content: left;
+  z-index: 1001;
+  height: 100vh;
 }
 
 /* CSS to hide the sidebar by default */
 #sideLeft {
-	transform: translateX(-100%);
-	transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
 }
 
 /* CSS to show the sidebar when the "sidebarHidden" class is not present */
 #sideLeft:not(.sidebarHidden) {
-	transform: translateX(0);
+  transform: translateX(0);
 }
 /* Define CSS styles for the coordinateHeader class */
 .coordinateHeader {
-	width: 100%;
-	height: 47px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 12px 16px;
-	/* Adjust padding as needed */
-	background-color: #3f78e0;
-	/* Change background color as needed */
+  width: 100%;
+  height: 47px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  /* Adjust padding as needed */
+  background-color: #3f78e0;
+  /* Change background color as needed */
 }
 
 /* Define CSS styles for the icon container within the coordinateHeader */
 .coordinateHeader .icon-container {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 /* Define CSS styles for the icon */
 .coordinateHeader .icon-container svg {
-	width: 16px;
-	/* Set the width of the SVG icon */
-	height: 16px;
-	/* Set the height of the SVG icon */
-	fill: currentColor;
-	/* Use the current text color for icon fill */
-	margin-right: 8px;
-	/* Adjust margin as needed */
-	color: #ffffff;
+  width: 16px;
+  /* Set the width of the SVG icon */
+  height: 16px;
+  /* Set the height of the SVG icon */
+  fill: currentColor;
+  /* Use the current text color for icon fill */
+  margin-right: 8px;
+  /* Adjust margin as needed */
+  color: #ffffff;
 }
 
 /* Define CSS styles for the text */
 .coordinateHeader .text {
-	font-size: 15px;
-	color: #ffffff;
-	/* Adjust font size as needed */
+  font-size: 15px;
+  color: #ffffff;
+  /* Adjust font size as needed */
 }
 .statistik {
-	display: flex;
-	justify-content:left;
-	margin: 5px;
-	/* Adjust padding as needed */
+  display: flex;
+  justify-content: left;
+  margin: 5px;
+  /* Adjust padding as needed */
 }
 .li-text {
-	margin-top: 0.20rem;
-	font-size: small;
-	font-weight: bold;
-	color: #60697b;
-	font-family: var(--bs-font-sans-serif);
+  margin-top: 0.2rem;
+  font-size: small;
+  font-weight: bold;
+  color: #60697b;
+  font-family: var(--bs-font-sans-serif);
 }
 .li-text-left {
-	margin-top: 0.20rem;
-	font-size: small;
-	font-weight: bold;
-	color: #60697b;
-	font-family: var(--bs-font-sans-serif);
+  margin-top: 0.2rem;
+  font-size: small;
+  font-weight: bold;
+  color: #60697b;
+  font-family: var(--bs-font-sans-serif);
 }
 .custom-text-style {
-	font-size: 12px;
-	font-weight: bold;
-	color: #60697b;
-	/* Define your custom text color here */
-	font-family: var(--bs-font-sans-serif);
+  font-size: 12px;
+  font-weight: bold;
+  color: #60697b;
+  /* Define your custom text color here */
+  font-family: var(--bs-font-sans-serif);
 }
 .spanText {
-	padding-left: 5px;
-	font-size: 12px;
-	font-weight: bold;
-	color: #60697b;
-	/* Define your custom text color here */
-	font-family: var(--bs-font-sans-serif);
+  padding-left: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #60697b;
+  /* Define your custom text color here */
+  font-family: var(--bs-font-sans-serif);
 }
 .filterNama {
-	font-size: 16px;
-	font-weight: bold;
-	color: #60697b;
-	font-family: var(--bs-font-sans-serif);
+  font-size: 16px;
+  font-weight: bold;
+  color: #60697b;
+  font-family: var(--bs-font-sans-serif);
 }
 .custom-text-check {
-	font-size: 12px;
-	font-weight: bold;
-	color: #60697b;
-	/* Define your custom text color here */
-	font-family: var(--bs-font-sans-serif);
-	margin-left: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #60697b;
+  /* Define your custom text color here */
+  font-family: var(--bs-font-sans-serif);
+  margin-left: 30px;
 }
 .rotate180 {
-	transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 #legend-container {
-	position: absolute;
-	bottom: -70px;
-	right: 0;
-	width: 180px;
-	background-color: white;
-	margin-right: 8px;
-	margin-left: 8px;
-	padding: 10px;
-	z-index: 1000;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-	border-radius: 5px;
-	overflow-y: auto;
-	max-height: 0;
-	/* Awalnya diset menjadi 0 */
-	font-size: 12px;
-	opacity: 0;
-	/* Awalnya diset menjadi 0 */
-	transition: max-height 0.3s ease, opacity 0.3s ease;
-	/* Transisi untuk max-height dan opacity */
+  position: absolute;
+  bottom: -70px;
+  right: 0;
+  width: 180px;
+  background-color: white;
+  margin-right: 8px;
+  margin-left: 8px;
+  padding: 10px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  overflow-y: auto;
+  max-height: 0;
+  /* Awalnya diset menjadi 0 */
+  font-size: 12px;
+  opacity: 0;
+  /* Awalnya diset menjadi 0 */
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  /* Transisi untuk max-height dan opacity */
 }
 .hrLegend {
-	margin-top: 10px;
-    margin-bottom: 10px;
-	border-bottom: 1px solid black;
-	width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
+  width: 100%;
 }
 
 #legend-container.active {
-	max-height: 200px;
-	/* Setelah diaktifkan, tinggi maksimum diubah menjadi 200px */
-	opacity: 1;
-	/* Setelah diaktifkan, opacity diubah menjadi 1 */
+  max-height: 200px;
+  /* Setelah diaktifkan, tinggi maksimum diubah menjadi 200px */
+  opacity: 1;
+  /* Setelah diaktifkan, opacity diubah menjadi 1 */
 }
 .legend {
-	width: 180px;
-	height: 290px;
-	font-size: 14px;
-	background: #ffffff;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-	border-radius: 5px;
-	overflow-x:auto;
+  width: 180px;
+  height: 290px;
+  font-size: 14px;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  overflow-x: auto;
 }
 .legend-item,
 .checkbox-item {
-	display: flex;
-	justify-content:baseline;
-	align-items: left;
-	gap: 5px;
+  display: flex;
+  justify-content: baseline;
+  align-items: left;
+  gap: 5px;
 }
 .color-box {
-	width: 18px;
-	height: 18px;
-	display: inline-block;
-	border-radius: 0;
-	padding: 4px;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  border-radius: 0;
+  padding: 4px;
 }
 .legend::-webkit-scrollbar,
 #legend-container::-webkit-scrollbar {
-	width: 5px;
+  width: 5px;
 }
 .legend::-webkit-scrollbar-track,
 #legend-container::-webkit-scrollbar-track {
-	background: #e3e3e3;
+  background: #e3e3e3;
 }
 .legend::-webkit-scrollbar-thumb,
 #legend-container::-webkit-scrollbar-thumb {
-	background-color: #3f78e0;
-	border-radius: 20px;
-	border: 1px solid #e3e3e3;
+  background-color: #3f78e0;
+  border-radius: 20px;
+  border: 1px solid #e3e3e3;
 }
 .rightContent::-webkit-scrollbar,
 .content::-webkit-scrollbar {
-	width: 5px;
+  width: 5px;
 }
 .rightContent::-webkit-scrollbar-track,
 .content::-webkit-scrollbar-track {
-	background: #e3e3e3;
+  background: #e3e3e3;
 }
 .rightContent::-webkit-scrollbar-thumb,
 .content::-webkit-scrollbar-thumb {
-	background-color: #3f78e0;
-	border-radius: 20px;
-	border: 1px solid #e3e3e3;
+  background-color: #3f78e0;
+  border-radius: 20px;
+  border: 1px solid #e3e3e3;
 }
 #kecamatan,
 #kelurahan,
@@ -524,149 +517,158 @@ border: 2px solid #3f78e0;
 #kategori_usaha_kecamatan,
 #zona,
 #sub_zona {
-	margin-top: 0;
-	padding-bottom: 0;
+  margin-top: 0;
+  padding-bottom: 0;
 }
 .sub {
-	height:40px;
+  height: 40px;
 }
 .bi {
-	font-size: 16px;
-	
+  font-size: 16px;
 }
 .accordionStyle {
-	width: 100%;
-	border-bottom: 1px solid rgba(8, 60, 130, .06);;
-	background-color: #fff;
-	color: #333;
-	font-family: Arial, sans-serif;
-		font-size: 16px;
-		font-weight: normal;
+  width: 100%;
+  border-bottom: 1px solid rgba(8, 60, 130, 0.06);
+  background-color: #fff;
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
 }
 .pengukuran {
-	width: 100%;
-	border-bottom: 1px solid rgba(8, 60, 130, .06);;
-	background-color: #fff;
-	color: #333;
-	font-family: Arial, sans-serif;
-		font-size: 16px;
-		font-weight: normal;
+  width: 100%;
+  border-bottom: 1px solid rgba(8, 60, 130, 0.06);
+  background-color: #fff;
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
 }
 .marker-button,
 .polyline-button,
 .polygon-button,
 .edit-button,
 .delete-button {
-	height: 30px;
+  height: 30px;
 }
 .bi-pencil-square,
 .fa-draw-polygon,
 .fa-trash,
 .bi-slash-lg,
 .bi-geo-alt-fill {
-	position: absolute;
-	bottom: 5px;
-	left:12px;
+  position: absolute;
+  bottom: 5px;
+  left: 12px;
 }
-.btn-group>.btn-group:not(:last-child)>.btn,
-.btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
-	border-top-left-radius: 4px;
-	border-bottom-left-radius: 4px;
-
+.btn-group > .btn-group:not(:last-child) > .btn,
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
-.btn-group>.btn-group:not(:first-child)>.btn,
-.btn-group>.btn:nth-child(n+3),
-.btn-group>:not(.btn-check)+.btn {
-	border-top-right-radius: 4px;
-	border-bottom-right-radius: 4px;
+.btn-group > .btn-group:not(:first-child) > .btn,
+.btn-group > .btn:nth-child(n + 3),
+.btn-group > :not(.btn-check) + .btn {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 .shadows {
-	box-shadow: 20px 5px 5px rgba(0, 0, 0, 0.5);
-	}
-	.border-collapse{
-		border: 1px solid #ff0000;
-		border-radius: 3px;
-	}
+  box-shadow: 20px 5px 5px rgba(0, 0, 0, 0.5);
+}
+.border-collapse {
+  border: 1px solid #ff0000;
+  border-radius: 3px;
+}
 .custom-popup {
-    resize: both;
-    overflow-y: auto;
-    max-width: 300px;
-    max-height: 200px;
-    border: 1px solid #ccc;
+  resize: both;
+  overflow-y: auto;
+  max-width: 300px;
+  max-height: 200px;
+  border: 1px solid #ccc;
 }
 
 .leaflet-popup-scrolled::-webkit-scrollbar {
-    width: 5px;
+  width: 5px;
 }
 
 .leaflet-popup-scrolled::-webkit-scrollbar-thumb {
-    background: #3f78e0;
+  background: #3f78e0;
 }
 
 .leaflet-popup-scrolled::-webkit-scrollbar-track {
-    background-color: #e3e3e3;
-	border-radius: 20px;
-	border: 1px solid #e3e3e3;
+  background-color: #e3e3e3;
+  border-radius: 20px;
+  border: 1px solid #e3e3e3;
 }
 #videoIframe {
-	border: 3px solid #e3e3e3;
+  border: 3px solid #e3e3e3;
 }
 #videoContainer {
-            display: none;
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            width: 250px;
-            height: 150px;
-            animation: slideInRight 0.5s ease-in-out, floatBubble 3s ease-in-out;
-			border-radius: 7px;
-        }
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 250px;
+  height: 150px;
+  animation: slideInRight 0.5s ease-in-out, floatBubble 3s ease-in-out;
+  border-radius: 7px;
+}
 
-        .close {
-            position: absolute;
-            top: 0;
-            right: 0;
-            color: #ffffff;
-        }
-		.fullscreen {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            color: #ffffff;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-        }
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #ffffff;
+}
+.fullscreen {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #ffffff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
 
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 
-        @keyframes floatBubble {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-		.custom-bg-transparent {
-			background-color: #343f52;
-      opacity: 0.8;
-    }
-	.bg-baru {
-		background: linear-gradient(to bottom left, #3f78e0 40%, #8ac5ff 100%);
-	}
-	.gradasi-warna {
-		background: linear-gradient(to bottom left, #272727 40%, #bac4d3 100%);
-	}
-	.gradient-text {
-            background: linear-gradient(to right, #3f78e0, #8ac5ff); /* Warna gradien horizontal */
+@keyframes floatBubble {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+.custom-bg-transparent {
+  background-color: #343f52;
+  opacity: 0.8;
+}
+.bg-baru {
+  background: linear-gradient(to bottom left, #3f78e0 40%, #8ac5ff 100%);
+}
+.gradasi-warna {
+  background: linear-gradient(to bottom left, #272727 40%, #bac4d3 100%);
+}
+.gradient-text {
+  background: linear-gradient(
+    to right,
+    #3f78e0,
+    #8ac5ff
+  ); /* Warna gradien horizontal */
+  -webkit-background-clip: text; /* Memastikan gradien hanya diterapkan pada teks, bukan latar belakang */
+  color: transparent; /* Membuat teks menjadi transparan */
+}
+
+	.gradient-text-1 {
+            background: linear-gradient(to right, #343f52, #7385a6); /* Warna gradien horizontal */
             -webkit-background-clip: text; /* Memastikan gradien hanya diterapkan pada teks, bukan latar belakang */
             color: transparent; /* Membuat teks menjadi transparan */
 			
@@ -677,9 +679,9 @@ border: 2px solid #3f78e0;
             color: transparent; /* Membuat teks menjadi transparan */
 			
         }
+
 .slider-container {
   width: 100%;
-  overflow: hidden; 
 }
 
 .slider {
@@ -689,6 +691,7 @@ border: 2px solid #3f78e0;
 
 .slide {
   width: 100%;
+
   flex: 0 0 auto;
   text-align: center;
   position: relative; /* Tambahkan ini */
@@ -696,8 +699,7 @@ border: 2px solid #3f78e0;
 
 .slide img {
   width: 100%;
-  height: auto;
-  max-height: 87vh;
+  height: 87vh;
 }
 /* ... (style.css yang telah diberikan sebelumnya) */
 
@@ -752,39 +754,4 @@ border: 2px solid #3f78e0;
 
 .active {
   opacity: 1;
-}
-
-@media only screen and (max-width: 768px) {
-  .slider {
-    display: flex; /* Menggunakan flexbox untuk menampilkan gambar-gambar secara horizontal */
-    width: auto; /* Menyesuaikan lebar slider dengan ukuran gambar */
-    transition: none; /* Menghapus transisi agar tidak mengganggu layout */
-  }
-  
-  .slide {
-    width: 100%; /* Setiap gambar akan menempati seluruh lebar slider */
-    flex: 0 0 auto; /* Tetapkan ukuran gambar agar tidak dapat diperbesar atau diperkecil */
-  }
-  
-  .text {
-    top: 80%; /* Menggeser posisi teks ke bawah */
-    right: 0; /* Menggeser posisi teks ke kanan */
-    left: 0; /* Menggeser posisi teks ke kiri */
-    transform: translateY(-50%); /* Kembalikan ke nilai semula */
-    animation: none; /* Hentikan animasi mengambang */
-  }
-}
-.swiper-container {
-    width: 100%;
-}
-
-.swiper-slide {
-    background-size: cover;
-    background-position: 50%;
-    min-height: 87vh;
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 }
