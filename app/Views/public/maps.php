@@ -69,11 +69,11 @@ $this->withoutFooter = true;
                 </div>
             </div>
 
-            <div class="p-2 content" id="filterContent">
-                <p style="font-size: 15px;">Silahkan aktifkan layer untuk fitur ini</p>
-                <div class="border-collapse"><label class="text-danger p-1" style="font-size: 12px;">
-                        *Catatan: pastikan layer tidak bertumpuk
-                        &nbsp;sebelum menggunakan fitur ini!</label></div>
+            <div class="p-4 content flex-col align-items-center" id="filterContent">
+                <p class="fs-12" id="label-filter">Silahkan aktifkan layer untuk fitur ini</p>
+                <div class="alert alert-warning fs-10" id="alert-filter" role="alert">
+                    *Catatan: pastikan layer tidak bertumpuk sebelum menggunakan fitur ini!
+                </div>
             </div>
 
             <div class="content" id="layerContent">
@@ -498,19 +498,17 @@ $this->withoutFooter = true;
 
 
         function addLayerToMap(layer) {
+
             if (map && layer) {
                 map.addLayer(layer);
-                activeLayers.push(layer);
-                activeFeatures.push(layer.feature);
-                generateLegendContent(activeFeatures);
             }
         }
 
         function disableLayer(filename) {
-            if (map && geojsonLayers[filename]) {
-                removeLegend();
-                $('#legend-container').removeClass('active');
-                map.removeLayer(geojsonLayers[filename]);
+            if (activeLayers[filename]) {
+                map.removeLayer(activeLayers[filename]);
+                delete activeLayers[filename];
+                generateLegendContent([]);
             }
         }
 
@@ -616,11 +614,16 @@ $this->withoutFooter = true;
         var geojsonLayer;
 
         function enableLayer(filename, targetLayerID) {
+            var warningMessage = document.getElementById('label-filter');
+            var instructionMessage = document.getElementById('alert-filter');
+
             $html.show();
             if (geojsonLayers[filename]) {
                 geojsonLayer = geojsonLayers[filename];
                 geojsonLayer.addTo(map);
-                updateFilterContentForLayer(filename);
+                activeLayers[filename] = geojsonLayer;
+                updateFilterContentForLayer(geojsonLayer, filename);
+                generateLegendContent(getLayer(geojsonLayer));
                 $html.hide();
             } else {
                 var target = BASE_URL + "/uploads/geojson/" + filename;
@@ -628,30 +631,29 @@ $this->withoutFooter = true;
                 fetch(target)
                     .then(response => response.json())
                     .then(geojsonData => {
-                        console.log(geojsonData);
+                        
                         geojsonLayer = L.geoJSON(geojsonData, {
                             style: function(feature) {
-                                var color;
-                                var dalam;
+                                var garis = 'white';
+                                var isi = 'yellow';
                                 switch (feature.properties.REMARK) {
                                     case "Lahan Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang":
-                                        color = 'white';
-                                        dalam = 'yellow';
+                                        garis = 'white';
+                                        isi = 'yellow';
+                                        isiO = 0.5;
                                         break;
                                     default:
-                                        feature.properties.fill;
-                                        feature.properties.stroke;
-                                        feature.properties['stroke-width'];
-                                        feature.properties['stroke-opacity'];
-                                        feature.properties['fill-opacity'];
+                                        garis = null;
+                                        isi = null;
+                                        isiO = 0;
                                 }
 
                                 return {
-                                    fillColor: feature.properties.fill,
-                                    color: feature.properties.stroke ?? dalam,
+                                    fillColor: feature.properties.fill || isi,
+                                    color: feature.properties.stroke || garis,
                                     weight: feature.properties['stroke-width'] || 2,
                                     opacity: feature.properties['stroke-opacity'] || 1,
-                                    fillOpacity: feature.properties['fill-opacity'] || 0
+                                    fillOpacity: feature.properties['fill-opacity'] || isiO
                                 };
                             },
                             onEachFeature: function(feature, layer) {
@@ -660,10 +662,12 @@ $this->withoutFooter = true;
                                 }
                             }
                         });
-                        updateFilterContentForLayer(filename);
+                        activeLayers[filename] = geojsonLayer;
+                        updateFilterContentForLayer(geojsonLayer, filename);
                         $('#legend-container').addClass('active');
                         geojsonLayer.addTo(map);
                         geojsonLayers[filename] = geojsonLayer;
+                        generateLegendContent(getLayer(geojsonLayer));
                     })
                     .catch(error => {
                         console.error(error);
@@ -671,6 +675,11 @@ $this->withoutFooter = true;
                     .finally(() => {
                         $html.hide();
                     });
+            }
+
+            if (activeLayers !== null) {
+                warningMessage.style.display = 'none';
+                instructionMessage.style.display = 'none';
             }
         }
 
@@ -706,19 +715,36 @@ $this->withoutFooter = true;
             }
         }
 
-        function updateFilterContentForLayer(filename) {
+        function updateFilterContentForLayer(geojsonLayer, layerId) {
             var filterContent = document.getElementById('filterContent');
-            filterContent.innerHTML = '';
-            if (filename === district) {
-                var div = document.createElement('div');
-                div.className = 'input-group';
+
+            // Remove existing filter for the layer
+            var existingFilter = document.getElementById('filter-' + layerId);
+            if (existingFilter) {
+                filterContent.removeChild(existingFilter);
+            }
+
+            var features = getLayer(geojsonLayer);
+            if (features.length === 0) return;
+
+            var sampleFeature = features[0];
+            var form = document.createElement('form');
+            form.className = 'mb-3';
+            form.id = 'filter-' + layerId;
+
+            if (sampleFeature.properties.kecamatan) {
+                var formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+
                 var label = document.createElement('label');
-                label.htmlFor = filename + '-filter';
-                label.className = 'input-group-text';
-                label.textContent = 'Filter Kecamatan :';
+                label.htmlFor = 'layer-filter-' + layerId;
+                label.className = 'form-label';
+                label.textContent = 'Filter Kecamatan:';
+
                 var select = document.createElement('select');
                 select.className = 'form-select';
-                select.id = filename + '-filter';
+                select.id = 'layer-filter-' + layerId;
+
                 var options = ['Sukatani', 'Jatiluhur', 'Sukasari', 'Pondoksalam', 'Maniis', 'Cibatu', 'Darangdan', 'Plered', 'Kiarapedes', 'Purwakarta', 'Bojong', 'Babakancikao', 'Pasawahan', 'Tegalwaru', 'Campaka', 'Wanayasa', 'Bungursari'];
 
                 options.forEach(function(value) {
@@ -741,62 +767,66 @@ $this->withoutFooter = true;
                     });
                 });
 
-                div.appendChild(label);
-                div.appendChild(select);
-                filterContent.appendChild(div);
-            } else if (
-                filename === desa ||
-                filename === pkkpr23 ||
-                filename === pkkpr21 ||
-                filename === pkkpr22
-            ) {
-                var div = document.createElement('div');
-                div.className = 'input-group';
+                formGroup.appendChild(label);
+                formGroup.appendChild(select);
+                form.appendChild(formGroup);
+            } else if (sampleFeature.properties.nama_pelaku_usaha || sampleFeature.properties.name || sampleFeature.properties.NAMOBJ) {
+                var formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+
                 var label = document.createElement('label');
-                label.htmlFor = filename + '-filter';
-                label.className = 'input-group-text';
-                label.textContent = 'Filter Layer :';
+                label.htmlFor = 'layer-filter-' + layerId;
+                label.className = 'form-label';
+                label.textContent = 'Filter Layer:';
+
                 var select = document.createElement('select');
                 select.className = 'form-select';
+                select.id = 'layer-filter-' + layerId;
 
                 var defaultOption = document.createElement('option');
                 defaultOption.value = '';
                 defaultOption.textContent = 'Select Filter';
                 select.appendChild(defaultOption);
 
-
-                var selectedLayers = [];
                 select.addEventListener('change', function() {
-
                     geojsonLayer.eachLayer(function(layer) {
                         map.removeLayer(layer);
                     });
 
                     var selectedOption = select.value;
                     geojsonLayer.eachLayer(function(layer) {
-                        if (layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name === selectedOption) {
+                        if ((layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name || layer.feature.properties.NAMOBJ) === selectedOption) {
                             map.addLayer(layer);
+                            var bounds = layer.getBounds();
+                            map.fitBounds(bounds);
                         } else {
                             map.removeLayer(layer);
                         }
                     });
-
-                    console.log(selectedOptions);
                 });
 
-
-                geojsonLayer.eachLayer(function(layer) {
+                features.forEach(function(feature) {
                     var option = document.createElement('option');
-                    option.value = layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name;
-                    option.textContent = layer.feature.properties.nama_pelaku_usaha || layer.feature.properties.name;
+                    option.value = feature.properties.nama_pelaku_usaha || feature.properties.name || feature.properties.NAMOBJ;
+                    option.textContent = feature.properties.nama_pelaku_usaha || feature.properties.name || feature.properties.NAMOBJ;
                     select.appendChild(option);
                 });
 
-                div.appendChild(label);
-                div.appendChild(select);
-                filterContent.appendChild(div);
-
+                formGroup.appendChild(label);
+                formGroup.appendChild(select);
+                form.appendChild(formGroup);
             }
+
+            filterContent.appendChild(form);
+        }
+
+        function getLayer(geojsonLayer) {
+            var features = [];
+            geojsonLayer.eachLayer(function(layer) {
+                var feature = layer.feature;
+                features.push(feature);
+            });
+            return features;
         }
 
         function showSidebar() {
@@ -860,16 +890,31 @@ $this->withoutFooter = true;
                 '<div style="margin-top:0px; width:100%; border-bottom: 1px solid #b8b8b8; opacity:0.5"></div>';
 
             var displayedTypes = {};
-
             for (var i = 0; i < features.length; i++) {
                 var feature = features[i];
                 if (feature.properties && (feature.properties.fill || feature.properties.stroke)) {
+
                     var layerName = feature.properties.name || feature.properties.nama || feature.properties.nama_pelaku_usaha || getNamaRuasFromDescription(feature.properties.description.value);
                     if (feature.properties.fill !== '#000000') {
                         var fillColor = feature.properties.fill || feature.properties.stroke;
+                    } else if (feature.properties.NAMOBJ) {
+                        var fillColor = 'yellow';
                     } else {
                         var fillColor = feature.properties.fill !== '#000000' || feature.properties.stroke;
                     }
+                    var layerType = feature.geometry.type;
+
+                    if (!displayedTypes[layerType]) {
+                        content += '<p class="px-3 mb-1" style="margin-top:7px; font-weight: bold; font-size:12px; color:black;">' + layerType + '</p>';
+                        displayedTypes[layerType] = true;
+                    }
+
+                    content += '<p class="legend-item m-1 px-1" style="font-size:10px; color:black;">' +
+                        '<span class="color-box px-1" style="background: ' + fillColor + '"></span>' + layerName + '</p>';
+                } else if (feature.properties.NAMOBJ) {
+
+                    var layerName = feature.properties.NAMOBJ;
+                    var fillColor = 'yellow';
                     var layerType = feature.geometry.type;
 
                     if (!displayedTypes[layerType]) {
